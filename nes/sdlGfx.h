@@ -44,3 +44,7 @@ private:
     SDL_Rect _right_rect;
 #endif
 };
+
+// External Interface
+extern "C" __declspec(dllexport) SdlGfx* SdlGfx_Create(int scale);
+extern "C" __declspec(dllexport) void SdlGfx_Delete(SdlGfx*);

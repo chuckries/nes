@@ -14,8 +14,28 @@
 #include "sdlGfx.h"
 #include "mapper.h"
 
-Nes::Nes(std::shared_ptr<Rom> rom)
+// External Interface
+Nes* Nes_Create(const char* romPath, IGfx* gfx)
+{
+    return Nes::Create(romPath, gfx);
+}
+
+void Nes_Delete(Nes* nes)
+{
+    if (nes != nullptr)
+    {
+        delete nes;
+    }
+}
+
+void Nes_Run(Nes* nes)
+{
+    nes->Run();
+}
+
+Nes::Nes(std::shared_ptr<Rom> rom, IGfx* gfx)
     : _rom(rom)
+    , _gfx(gfx)
 {
 }
 
@@ -23,31 +43,29 @@ Nes::~Nes()
 {
 }
 
-std::unique_ptr<Nes> Nes::Create(const char* romPath)
+Nes* Nes::Create(const char* romPath, IGfx* gfx)
 {
     auto rom = std::make_shared<Rom>();
     if (!rom->Load(romPath))
         return nullptr;
 
-    return std::make_unique<Nes>(rom);
+    return new Nes(rom, gfx);
 }
 
-std::unique_ptr<Nes> Nes::Create(std::shared_ptr<Rom> rom)
-{
-    return std::make_unique<Nes>(rom);
-}
+//std::unique_ptr<Nes> Nes::Create(std::shared_ptr<Rom> rom, std::shared_ptr<IGfx> gfx)
+//{
+//    return std::make_unique<Nes>(rom, gfx);
+//}
 
 void Nes::Run()
 {
-    std::shared_ptr<SdlGfx> gfx = std::make_shared<SdlGfx>(3);
-
     std::shared_ptr<IMapper> mapper = IMapper::CreateMapper(_rom);
     if (mapper == nullptr)
     {
         return;
     }
 
-    Ppu ppu(mapper, std::dynamic_pointer_cast<IGfx>(gfx));
+    Ppu ppu(mapper, _gfx);
     Apu apu(false /* isPal */);
     Input input;
     MemoryMap mem(ppu, apu, input, mapper);

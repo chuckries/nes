@@ -173,7 +173,7 @@ struct PpuStatus
 class Ppu : public IMem
 {
 public:
-    Ppu(std::shared_ptr<IMapper> mapper, std::shared_ptr<IGfx> gfx);
+    Ppu(std::shared_ptr<IMapper> mapper, IGfx* gfx);
     ~Ppu();
 
 public:
@@ -225,7 +225,7 @@ private:
     void PutPixel(u16 x, u16 y, rgb& pixel);
 
 private:
-    std::shared_ptr<IGfx> _gfx;
+    IGfx* _gfx;
     std::shared_ptr<IMapper> _mapper;
     VRam _vram;
 

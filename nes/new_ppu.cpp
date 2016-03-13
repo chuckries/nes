@@ -3,7 +3,7 @@
 #include "sdlGfx.h"
 #include "rom.h"
 
-Ppu::Ppu(std::shared_ptr<IMapper> mapper, std::shared_ptr<IGfx> gfx)
+Ppu::Ppu(std::shared_ptr<IMapper> mapper, IGfx* gfx)
     : _gfx(gfx)
     , _mapper(mapper)
     , _vram(_mapper)
