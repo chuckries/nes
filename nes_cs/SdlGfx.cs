@@ -9,11 +9,20 @@ namespace nes_cs
 {
     public class SdlGfx : IGfx
     {
-        public IntPtr IntPtr { get; private set; }
+        public IntPtr IntPtr { get; private set; } = IntPtr.Zero;
 
         private SdlGfx(IntPtr sdlGfx)
         {
             IntPtr = sdlGfx;
+        }
+
+        // TODO: This should potentially be done with a dispose pattern
+        ~SdlGfx()
+        {
+            if (IntPtr != IntPtr.Zero)
+            {
+                Native.SdlGfx_Destroy(IntPtr);
+            }
         }
 
         public static SdlGfx Create(int scale)

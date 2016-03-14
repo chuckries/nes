@@ -9,11 +9,20 @@ namespace nes_cs
 {
     public class Nes
     {
-        public IntPtr IntPtr { get; private set; }
+        public IntPtr IntPtr { get; private set; } = IntPtr.Zero;
 
         private Nes(IntPtr nes)
         {
             IntPtr = nes;
+        }
+
+        // TODO: This should potentially be a dispose pattern.
+        ~Nes()
+        {
+            if (IntPtr != IntPtr.Zero)
+            {
+                Native.Nes_Destroy(IntPtr);
+            }
         }
 
         public static Nes Create(string romPath, IGfx gfx)
