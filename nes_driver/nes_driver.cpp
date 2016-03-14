@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    SdlGfx* sdlGfx = SdlGfx_Create(3);
+    SdlGfx* sdlGfx = SdlGfx_Create(nullptr);
 
     Nes* nes = Nes_Create(argv[1], (IGfx*)sdlGfx);
     if (nes != nullptr)

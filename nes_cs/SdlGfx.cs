@@ -25,18 +25,18 @@ namespace nes_cs
             }
         }
 
-        public static SdlGfx Create(int scale)
+        public static SdlGfx Create(IntPtr nativeWindow)
         {
-            return new SdlGfx(Native.SdlGfx_Create(scale));
+            return new SdlGfx(Native.SdlGfx_Create(nativeWindow));
         }
 
         private class Native
         {
-            [DllImport("nes.dll")]
-            public static extern IntPtr SdlGfx_Create(int scale);
+            [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr SdlGfx_Create(IntPtr nativeWindow);
 
-            [DllImport("nes.dll")]
-            public static extern IntPtr SdlGfx_Destroy(IntPtr sdlGfx);
+            [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void SdlGfx_Destroy(IntPtr sdlGfx);
         }
     }
 }

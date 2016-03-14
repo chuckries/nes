@@ -17,7 +17,7 @@ namespace nes_managed_driver
                 return 1;
             }
 
-            SdlGfx gfx = SdlGfx.Create(3);
+            SdlGfx gfx = SdlGfx.Create(IntPtr.Zero);
 
             Nes nes = Nes.Create(args[0], gfx);
             nes.Run();

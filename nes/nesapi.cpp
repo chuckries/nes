@@ -28,9 +28,9 @@ void Nes_Destroy(Nes* nes)
 
 // SdlGfx Functions
 
-SdlGfx* SdlGfx_Create(int scale)
+SdlGfx* SdlGfx_Create(void* pNativeWindow)
 {
-    return new SdlGfx(3);
+    return new SdlGfx(pNativeWindow);
 }
 
 void SdlGfx_Destroy(SdlGfx* gfx)
@@ -39,4 +39,34 @@ void SdlGfx_Destroy(SdlGfx* gfx)
     {
         delete gfx;
     }
+}
+
+#include <Windows.h>
+void* Gfx_CreateWindowsWindow(void* hwndParent)
+{
+    HWND parentWindow = (HWND)hwndParent;
+    HINSTANCE hInstance = (HINSTANCE)&__ImageBase;
+
+    GetWindowLongPtr(parentWindow, GWLP_WNDPROC);
+
+    const wchar_t CLASS_NAME[] = L"Render Widow";
+    WNDCLASS wc = {};
+    wc.lpfnWndProc = (WNDPROC)GetWindowLongPtr(parentWindow, GWLP_WNDPROC);
+    wc.hInstance = hInstance;
+    wc.lpszClassName = CLASS_NAME;
+
+    RegisterClass(&wc);
+
+    return (void*)CreateWindow(
+        CLASS_NAME,
+        L"Render Context",
+        WS_CHILD,
+        0,
+        0,
+        256,
+        240,
+        parentWindow,
+        nullptr,
+        hInstance,
+        nullptr);
 }

@@ -46,6 +46,7 @@ void Nes::Run()
         return;
     }
 
+    _gfx->InitVideo();
     Ppu ppu(mapper, _gfx);
     Apu apu(false /* isPal */);
     Input input;

@@ -35,15 +35,18 @@ namespace nes_cs
             Native.Nes_Run(IntPtr);
         }
 
+        [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Gfx_CreateWindowsWindow(IntPtr parentWindow);
+
         private class Native
         {
-            [DllImport("nes.dll")]
+            [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr Nes_Create(string romPath, IntPtr gfx);
 
-            [DllImport("nes.dll")]
+            [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void Nes_Run(IntPtr nes);
 
-            [DllImport("nes.dll")]
+            [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void Nes_Destroy(IntPtr nes);
         }
     }

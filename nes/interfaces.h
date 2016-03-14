@@ -80,6 +80,7 @@ protected:
 class IGfx
 {
 public: 
+    virtual void InitVideo() = 0;
     virtual void Blit(u8 screen[]) = 0;
 
     //Optional

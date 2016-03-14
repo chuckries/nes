@@ -7,14 +7,17 @@ struct SDL_Texture;
 class SdlGfx : public IGfx
 {
 public:
-    SdlGfx(u32 scale);
+    SdlGfx(void* nativeWindow = nullptr);
     ~SdlGfx();
 
+    void InitVideo();
     void Blit(u8 screen[]);
 private:
-    SDL_Window* _window;
-    SDL_Renderer* _renderer;
-    SDL_Texture* _texture;
+    void* _pNativeWindow;
+
+    SDL_Window* _pWindow;
+    SDL_Renderer* _pRenderer;
+    SDL_Texture* _pTexture;
 
     std::chrono::time_point<std::chrono::steady_clock> _lastDrawTime;
     std::chrono::time_point<std::chrono::steady_clock> _lastFpsTime;

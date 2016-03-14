@@ -16,8 +16,24 @@ u8 grid_color = 0xff;
 #endif
 
 
-SdlGfx::SdlGfx(u32 scale)
-    : _frameCounter(0)
+SdlGfx::SdlGfx(void* pNativeWindow)
+    : _pNativeWindow(pNativeWindow)
+    , _frameCounter(0)
+{
+    _lastDrawTime = std::chrono::high_resolution_clock::now();
+    _lastFpsTime = std::chrono::high_resolution_clock::now();
+}
+
+SdlGfx::~SdlGfx()
+{
+    SDL_DestroyTexture(_pTexture);
+    SDL_DestroyRenderer(_pRenderer);
+    SDL_DestroyWindow(_pWindow);
+
+    SDL_Quit();
+}
+
+void SdlGfx::InitVideo()
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS | SDL_INIT_TIMER);
 
@@ -29,7 +45,7 @@ SdlGfx::SdlGfx(u32 scale)
 
         _nt_window[i] = SDL_CreateWindow(
             name,
-            256 * (2 * (i % 2 )),
+            256 * (2 * (i % 2)),
             240 * (2 * (i / 2)),
             256 * 2,
             240 * 2,
@@ -90,74 +106,36 @@ SdlGfx::SdlGfx(u32 scale)
     _right_rect.h = 32 * 8 * 2;
 #endif
 
-    _window = SDL_CreateWindow(
-        "NES",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        SCREEN_WIDTH * scale ,
-        SCREEN_HEIGHT * scale,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI
-        );
+    if (_pNativeWindow == nullptr)
+    {
+        _pWindow = SDL_CreateWindow(
+            "NES",
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI
+            );
+    }
+    else
+    {
+        _pWindow = SDL_CreateWindowFrom(_pNativeWindow);
+    }
 
-    _renderer = SDL_CreateRenderer(
-        _window,
+    _pRenderer = SDL_CreateRenderer(
+        _pWindow,
         -1,
         SDL_RENDERER_ACCELERATED// | SDL_RENDERER_PRESENTVSYNC
         );
 
-    _texture = SDL_CreateTexture(
-        _renderer,
+    _pTexture = SDL_CreateTexture(
+        _pRenderer,
         SDL_PIXELFORMAT_RGB24,
         SDL_TEXTUREACCESS_STREAMING,
         SCREEN_WIDTH,
         SCREEN_HEIGHT
         );
-
-    _lastDrawTime = std::chrono::high_resolution_clock::now();
-    _lastFpsTime = std::chrono::high_resolution_clock::now();
 }
-
-SdlGfx::~SdlGfx()
-{
-    SDL_DestroyTexture(_texture);
-    SDL_DestroyRenderer(_renderer);
-    SDL_DestroyWindow(_window);
-
-    SDL_Quit();
-}
-
-#if defined(RENDER_GRID)
-void render_grid(u8 screen[])
-{
-    ZeroMemory(grid_screen, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
-
-    int screen_index = 0;
-
-    for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT * 3;)
-    {
-        if (i % 7776 == 0)
-        {
-            for (int j = 0; j < 864; j++)
-            {
-                grid_screen[i++] = grid_color;
-            }
-        }
-        else 
-            if (i % (9 * 3) == 0)
-        {
-            grid_screen[i++] = grid_color;
-            grid_screen[i++] = grid_color;
-            grid_screen[i++] = grid_color;
-        }
-        else
-        {
-            grid_screen[i++] = screen[screen_index++];
-            grid_screen[i++] = screen[screen_index++];
-            grid_screen[i++] = screen[screen_index++];
-        }
-    }
-}
-#endif
 
 void SdlGfx::Blit(u8 screen[])
 {
@@ -176,10 +154,10 @@ void SdlGfx::Blit(u8 screen[])
     } while (duration < 16666667); // 60 fps
     _lastDrawTime = now;
 
-    SDL_UpdateTexture(_texture, NULL, (void*)screen_to_render, SCREEN_WIDTH * 3);
-    SDL_RenderClear(_renderer);
-    SDL_RenderCopy(_renderer, _texture, NULL, NULL);
-    SDL_RenderPresent(_renderer);
+    SDL_UpdateTexture(_pTexture, NULL, (void*)screen_to_render, SCREEN_WIDTH * 3);
+    SDL_RenderClear(_pRenderer);
+    SDL_RenderCopy(_pRenderer, _pTexture, NULL, NULL);
+    SDL_RenderPresent(_pRenderer);
 
     _frameCounter++;
     now = std::chrono::high_resolution_clock::now();
@@ -190,6 +168,39 @@ void SdlGfx::Blit(u8 screen[])
         _lastFpsTime = now;
     }
 }
+
+#if defined(RENDER_GRID)
+void render_grid(u8 screen[])
+{
+    ZeroMemory(grid_screen, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
+
+    int screen_index = 0;
+
+    for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT * 3;)
+    {
+        if (i % 7776 == 0)
+        {
+            for (int j = 0; j < 864; j++)
+            {
+                grid_screen[i++] = grid_color;
+            }
+        }
+        else
+            if (i % (9 * 3) == 0)
+            {
+                grid_screen[i++] = grid_color;
+                grid_screen[i++] = grid_color;
+                grid_screen[i++] = grid_color;
+            }
+            else
+            {
+                grid_screen[i++] = screen[screen_index++];
+                grid_screen[i++] = screen[screen_index++];
+                grid_screen[i++] = screen[screen_index++];
+            }
+    }
+}
+#endif
 
 #if defined(RENDER_NAMETABLE)
 void SdlGfx::BlitNameTable(u8 screen[], int i)
