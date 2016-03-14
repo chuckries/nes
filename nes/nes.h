@@ -8,7 +8,7 @@ class Nes
 {
 public:
     Nes(std::shared_ptr<Rom> rom, IGfx* gfx);
-    __declspec(dllexport) ~Nes();
+    ~Nes();
 
     static Nes* Create(const char* romPath, IGfx* gfx);
     //static std::unique_ptr<Nes> Create(std::shared_ptr<Rom> rom, std::shared_ptr<IGfx> gfx);
@@ -26,9 +26,3 @@ private:
     std::unique_ptr<Cpu> _cpu;
     IGfx* _gfx;
 };
-
-// External Interface
-// External Interface
-extern "C" __declspec(dllexport) Nes* Nes_Create(const char* romPath, IGfx* gfx);
-extern "C" __declspec(dllexport) void Nes_Delete(Nes* nes);
-extern "C" __declspec(dllexport) void Nes_Run(Nes* nes);

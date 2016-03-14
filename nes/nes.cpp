@@ -14,25 +14,6 @@
 #include "sdlGfx.h"
 #include "mapper.h"
 
-// External Interface
-Nes* Nes_Create(const char* romPath, IGfx* gfx)
-{
-    return Nes::Create(romPath, gfx);
-}
-
-void Nes_Delete(Nes* nes)
-{
-    if (nes != nullptr)
-    {
-        delete nes;
-    }
-}
-
-void Nes_Run(Nes* nes)
-{
-    nes->Run();
-}
-
 Nes::Nes(std::shared_ptr<Rom> rom, IGfx* gfx)
     : _rom(rom)
     , _gfx(gfx)

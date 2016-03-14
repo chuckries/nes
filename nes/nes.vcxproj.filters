@@ -72,6 +72,9 @@
     <ClInclude Include="sdlGfx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="nesapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -111,6 +114,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sdlGfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nesapi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

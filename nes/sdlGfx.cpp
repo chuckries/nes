@@ -212,17 +212,3 @@ void SdlGfx::BlitPatternTable(u8 left[], u8 right[])
     SDL_RenderPresent(_pt_renderer);
 }
 #endif
-
-// External Interface
-SdlGfx* SdlGfx_Create(int scale)
-{
-    return new SdlGfx(scale);
-}
-
-void SdlGfx_Delete(SdlGfx* sdlGfx)
-{
-    if (sdlGfx != nullptr)
-    {
-        delete sdlGfx;
-    }
-}
