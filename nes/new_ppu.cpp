@@ -789,9 +789,9 @@ bool Ppu::GetSpriteColor(u8 x, u8 y, bool backgroundOpaque, u8& paletteIndex, Sp
 
 void Ppu::PutPixel(u16 x, u16 y, rgb& pixel)
 {
-    _screen[(y * SCREEN_WIDTH + x) * 3 + 0] = pixel.r;
+    _screen[(y * SCREEN_WIDTH + x) * 3 + 0] = pixel.b;
     _screen[(y * SCREEN_WIDTH + x) * 3 + 1] = pixel.g;
-    _screen[(y * SCREEN_WIDTH + x) * 3 + 2] = pixel.b;
+    _screen[(y * SCREEN_WIDTH + x) * 3 + 2] = pixel.r;
 }
 
 ///

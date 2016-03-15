@@ -43,6 +43,8 @@ AudioEngine::AudioEngine()
     , _cycleCounter(0)
     , _wavetableMemory(nullptr)
 {
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
+
     memset(&_nextEvent, 0, sizeof(AudioEvent));
     memset(&_pulseChannel1, 0, sizeof(WavetableChannel));
     memset(&_pulseChannel2, 0, sizeof(WavetableChannel));

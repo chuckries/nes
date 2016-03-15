@@ -23,3 +23,15 @@ extern "C"
     NES_API SdlGfx* SdlGfx_Create(int scale);
     NES_API void SdlGfx_Destroy(SdlGfx* sdlGfx);
 }
+
+
+// Graphics interface
+class IGfx
+{
+public:
+    virtual void Blit(u8 screen[]) = 0;
+
+    //Optional
+    virtual void BlitNameTable(u8 screen[], int i) { }
+    virtual void BlitPatternTable(u8 left[], u8 right[]) { }
+};

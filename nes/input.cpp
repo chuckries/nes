@@ -40,6 +40,7 @@ void Joypad::HandleKeyPress(JoypadButton button, bool isDown)
 
 Input::Input()
 {
+    SDL_InitSubSystem(SDL_INIT_EVENTS);
 }
 
 Input::~Input()

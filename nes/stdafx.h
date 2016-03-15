@@ -38,6 +38,7 @@ namespace fs = std::experimental::filesystem;
 #include "types.h"
 #include "interfaces.h"
 #include "util.h"
+#include "nesapi.h"
 
 // Emulator constants
 #define CPU_FREQ_NTSC 1789773
