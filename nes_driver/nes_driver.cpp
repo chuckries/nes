@@ -21,6 +21,11 @@ public:
 
         HINSTANCE hInstance = GetModuleHandle(NULL);
 
+        RECT clientRect = {};
+        clientRect.bottom = 240;
+        clientRect.right = 256;
+        AdjustWindowRect(&clientRect, (WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX), false);
+
         WNDCLASS wndclass = {};
         wndclass.style = CS_HREDRAW | CS_VREDRAW;
         wndclass.lpfnWndProc = WndProc;
@@ -33,8 +38,8 @@ public:
             WS_OVERLAPPEDWINDOW,      // window style
             CW_USEDEFAULT,            // initial x position
             CW_USEDEFAULT,            // initial y position
-            256,            // initial x size
-            240,            // initial y size
+            clientRect.right - clientRect.left,            // initial x size
+            clientRect.bottom - clientRect.top,            // initial y size
             NULL,                     // parent window handle
             NULL,                     // window menu handle
             nullptr,                // program instance handle
@@ -125,8 +130,8 @@ private:
         case WM_KEYDOWN:
             switch (wParam)
             {
-            case 0x41: _joypadState.A = true; break;
-            case 0x53: _joypadState.B = true; break;
+            case 0x53: _joypadState.A = true; break;
+            case 0x41: _joypadState.B = true; break;
             case VK_RSHIFT: _joypadState.Select = true; break;
             case VK_RETURN: _joypadState.Start = true; break;
             case VK_UP: _joypadState.Up = true; break;
@@ -139,8 +144,8 @@ private:
         case WM_KEYUP:
             switch (wParam)
             {
-            case 0x41: _joypadState.A = false; break;
-            case 0x53: _joypadState.B = false; break;
+            case 0x53: _joypadState.A = false; break;
+            case 0x41: _joypadState.B = false; break;
             case VK_RSHIFT: _joypadState.Select = false; break;
             case VK_RETURN: _joypadState.Start = false; break;
             case VK_UP: _joypadState.Up = false; break;
