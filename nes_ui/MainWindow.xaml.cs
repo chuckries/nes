@@ -16,6 +16,7 @@ using nes_cs;
 using System.Threading;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace nes_ui
 {
@@ -31,31 +32,35 @@ namespace nes_ui
 
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
-            SdlGfx gfx = SdlGfx.Create(this.RenderContext.Window.Handle);
+            var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.DefaultExt = ".nes";
+            bool? result = ofd.ShowDialog();
 
-            ThreadPool.QueueUserWorkItem(o =>
+            if (result == true)
             {
-                Nes nes = Nes.Create(@"\\Mac\Home\Downloads\Nintendo\Super Mario Bros. 3.nes", gfx);
+                SdlGfx gfx = SdlGfx.Create(this.RenderContext.hWnd);
+
+                Nes nes = Nes.Create(ofd.FileName, gfx);
+                FocusRenderContext();
                 nes.Run();
-            });
-        }
-    }
-
-    public class RenderContext : HwndHost
-    {
-        public HandleRef Window { get; private set; }
-
-        protected override HandleRef BuildWindowCore(HandleRef hwndParent)
-        {
-            IntPtr window = Nes.Gfx_CreateWindowsWindow(hwndParent.Handle);
-            HandleRef handleRef = new HandleRef(null, window);
-            Window = handleRef;
-            return handleRef;
+            }
         }
 
-        protected override void DestroyWindowCore(HandleRef hwnd)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO
+            FocusRenderContext();
+        }
+
+        private void FocusRenderContext()
+        {
+            Keyboard.Focus(this.RenderContext);
+        }
+
+        private void RenderContext_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            this.RenderContext.OnSetFocus();
         }
     }
 }

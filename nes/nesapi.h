@@ -22,7 +22,4 @@ extern "C"
     // SdlGfx functions
     NES_API SdlGfx* SdlGfx_Create(void* pNativeWindow);
     NES_API void SdlGfx_Destroy(SdlGfx* sdlGfx);
-
-    // Native Windows
-    NES_API void* Gfx_CreateWindowsWindow(void* hwndParent);
 }

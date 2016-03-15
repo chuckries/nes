@@ -35,9 +35,6 @@ namespace nes_cs
             Native.Nes_Run(IntPtr);
         }
 
-        [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Gfx_CreateWindowsWindow(IntPtr parentWindow);
-
         private class Native
         {
             [DllImport("nes.dll", CallingConvention = CallingConvention.Cdecl)]

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:nes_ui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="500" SizeToContent="WidthAndHeight">
+        Title="MainWindow" Height="500" Width="500" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,6 +18,6 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <local:RenderContext x:Name="RenderContext" Grid.Row="1"/>
+        <local:NativeWindow x:Name="RenderContext" Grid.Row="1" Focusable="True" GotKeyboardFocus="RenderContext_GotKeyboardFocus"/>
     </Grid>
 </Window>
