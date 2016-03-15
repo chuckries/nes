@@ -128,8 +128,9 @@ private:
 
 struct PpuStepResult
 {
-    bool VBlankNmi;
+    bool VBlank;
     bool WantIrq;
+    bool WantNmi;
 
     PpuStepResult()
     {
@@ -138,8 +139,9 @@ struct PpuStepResult
 
     void Reset()
     {
-        VBlankNmi = false;
+        VBlank = false;
         WantIrq = false;
+        WantNmi = false;
     }
 };
 

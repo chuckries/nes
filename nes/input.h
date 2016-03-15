@@ -16,14 +16,6 @@ enum class JoypadButton : u8
     Right = 1 << 7
 };
 
-enum class InputResult
-{
-    Continue,
-    SaveState,
-    LoadState,
-    Quit
-};
-
 class Joypad
 {
 public:
@@ -34,10 +26,13 @@ public:
     void store(u8 val);
 
     void HandleKeyPress(JoypadButton button, bool isDown);
+
+public:
+    JoypadState State;
 private:
     // Stores the button state
     // From LSB to MSB: A, B, Select, Start, Up, Down, Left, Right
-    u8 _state;
+    // u8 _state;
 
     // holds a mask to & with _state to read the controller status
     // shifted left one on each read
@@ -60,11 +55,11 @@ public:
     void Save() {}
     void Load() {}
 
-    InputResult CheckInput();
+    //InputResult CheckInput();
+    Joypad Joypad0;
+private:
+    //void HandleKeyPress(SDL_Keycode code, bool isDown);
 
 private:
-    void HandleKeyPress(SDL_Keycode code, bool isDown);
-
-private:
-    Joypad _joypad;
+    //Joypad _joypad;
 };

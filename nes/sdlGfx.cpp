@@ -107,7 +107,8 @@ SdlGfx::SdlGfx(u32 scale)
 
     _texture = SDL_CreateTexture(
         _renderer,
-        SDL_PIXELFORMAT_RGB24,
+        SDL_PIXELFORMAT_BGR24,
+        //SDL_PIXELFORMAT_RGB888,
         SDL_TEXTUREACCESS_STREAMING,
         SCREEN_WIDTH,
         SCREEN_HEIGHT

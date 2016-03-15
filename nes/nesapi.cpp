@@ -5,9 +5,9 @@
 
 // Nes Functions
 
-Nes* Nes_Create(const char* romPath, IGfx* gfx)
+Nes* Nes_Create(const char* romPath, IGfx* gfx, IInput* input)
 {
-    return Nes::Create(romPath, gfx);
+    return Nes::Create(romPath, gfx, input);
 }
 
 void Nes_Run(Nes* nes)

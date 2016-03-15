@@ -407,10 +407,11 @@ void Ppu::Step(PpuStepResult& result)
         if (_scanline == 241 && _cycle == 1)
         {
             _ppuStatus.SetInVBlank(true);
+            result.VBlank = true;
 
             if (_doVBlankNmi)
             {
-                result.VBlankNmi = true;
+                result.WantNmi = true;
             }
         }
 

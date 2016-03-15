@@ -120,6 +120,7 @@
     <ClInclude Include="new_ppu.h" />
     <ClInclude Include="old_ppu.h" />
     <ClInclude Include="rom.h" />
+    <ClInclude Include="SdlInput.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="mem.h" />
     <ClInclude Include="stdafx.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="new_ppu.cpp" />
     <!--<ClCompile Include="old_ppu.cpp" />-->
     <ClCompile Include="rom.cpp" />
+    <ClCompile Include="SdlInput.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -14,9 +14,10 @@
 #include "sdlGfx.h"
 #include "mapper.h"
 
-Nes::Nes(std::shared_ptr<Rom> rom, IGfx* gfx)
+Nes::Nes(std::shared_ptr<Rom> rom, IGfx* gfx, IInput* input)
     : _rom(rom)
     , _gfx(gfx)
+    , _input(input)
 {
 }
 
@@ -24,13 +25,13 @@ Nes::~Nes()
 {
 }
 
-Nes* Nes::Create(const char* romPath, IGfx* gfx)
+Nes* Nes::Create(const char* romPath, IGfx* gfx, IInput* input)
 {
     auto rom = std::make_shared<Rom>();
     if (!rom->Load(romPath))
         return nullptr;
 
-    return new Nes(rom, gfx);
+    return new Nes(rom, gfx, input);
 }
 
 //std::unique_ptr<Nes> Nes::Create(std::shared_ptr<Rom> rom, std::shared_ptr<IGfx> gfx)
@@ -66,27 +67,31 @@ void Nes::Run()
         apuResult.Reset();
         ppuResult.Reset();
 
-         inputResult = input.CheckInput();
-         if (inputResult == InputResult::SaveState)
-         {
-             wantSaveState = true;
-         }
-         else if (inputResult == InputResult::LoadState)
-         {
-             wantLoadState = true;
-         }
-         else if (inputResult == InputResult::Quit)
-         {
-             break;
-         }
-
         _cpu->Step();
         apu.Step(_cpu->Cycles, _cpu->IsDmaRunning(), apuResult);
         ppu.Step(_cpu->Cycles * 3, ppuResult);
 
         _cpu->Cycles = 0;
 
-        if (ppuResult.VBlankNmi)
+        if (ppuResult.VBlank)
+        {
+            //inputResult = input.CheckInput();
+            inputResult = _input->CheckInput(&input.Joypad0.State);
+            if (inputResult == InputResult::SaveState)
+            {
+                wantSaveState = true;
+            }
+            else if (inputResult == InputResult::LoadState)
+            {
+                wantLoadState = true;
+            }
+            else if (inputResult == InputResult::Quit)
+            {
+                break;
+            }
+        }
+
+        if (ppuResult.WantNmi)
         {
             _cpu->Nmi();
             if (wantSaveState)
