@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>cb88eadd-150d-4fb5-9c8e-f90fdbdcce22</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="disassembler.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mapper.cpp" />
+    <ClCompile Include="mem.cpp" />
+    <ClCompile Include="nes.cpp" />
+    <ClCompile Include="new_ppu.cpp" />
+    <ClCompile Include="rom.cpp" />
+    <ClCompile Include="util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="apu.h" />
+    <ClInclude Include="cpu.h" />
+    <ClInclude Include="decode.h" />
+    <ClInclude Include="diassembler.h" />
+    <ClInclude Include="eventqueue.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="interfaces.h" />
+    <ClInclude Include="mapper.h" />
+    <ClInclude Include="mem.h" />
+    <ClInclude Include="nes.h" />
+    <ClInclude Include="new_ppu.h" />
+    <ClInclude Include="rom.h" />
+    <ClInclude Include="types.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+</Project>
