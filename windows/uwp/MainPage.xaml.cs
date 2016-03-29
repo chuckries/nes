@@ -41,26 +41,24 @@ namespace nesUWP
             }
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            _nes.Dispose();
+        }
+
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
         }
 
         private void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            var bitmap = CanvasBitmap.CreateFromBytes(
-                sender.Device,
-                _bitmapBytes,
-                256,
-                240,
-                Windows.Graphics.DirectX.DirectXPixelFormat.R8G8B8A8UIntNormalized,
-                sender.Dpi,
-                CanvasAlphaMode.Ignore
-                );
+            _bitmap.SetPixelBytes(_bitmapBytes);
 
             args.DrawingSession.DrawImage(
-                bitmap,
+                _bitmap,
                 new Rect(0, 0, sender.Size.Width, sender.Size.Height),
-                bitmap.Bounds,
+                _bitmap.Bounds,
                 1,
                 CanvasImageInterpolation.NearestNeighbor
                 );
@@ -79,6 +77,15 @@ namespace nesUWP
         private async Task CreateResourcesAsync(CanvasAnimatedControl sender)
         {
             _bitmapBytes = new byte[256 * 240 * 4];
+            _bitmap = CanvasBitmap.CreateFromBytes(
+                sender.Device,
+                _bitmapBytes,
+                256,
+                240,
+                Windows.Graphics.DirectX.DirectXPixelFormat.R8G8B8A8UIntNormalized,
+                sender.Dpi,
+                CanvasAlphaMode.Ignore
+                );
 
             var file = _romFile;
             if (file == null)
@@ -133,6 +140,7 @@ namespace nesUWP
         private Nes _nes;
         private StandardController _controller0;
         private byte[] _bitmapBytes;
+        private CanvasBitmap _bitmap;
         private Windows.Storage.StorageFile _romFile;
     }
 }

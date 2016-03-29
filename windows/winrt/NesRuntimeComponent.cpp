@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NesRuntimeComponent.h"
 #include "StorageFileRom.h"
+#include "sdlAudio.h"
 
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -102,7 +103,10 @@ namespace NesRuntimeComponent
         return create_async([=]() {
             NPtr<StorageFileRom> rom(new StorageFileRom(romFile));
             NPtr<::Nes> nes;
-            ::Nes::Create(static_cast<IRomFile*>(rom), nullptr, &nes);
+
+            NPtr<::SdlAudioProvider> sdlAudio(new SdlAudioProvider(44100));
+
+            ::Nes::Create(static_cast<IRomFile*>(rom), static_cast<IAudioProvider*>(sdlAudio), &nes);
             return ref new Nes(nes);
         });
     }
