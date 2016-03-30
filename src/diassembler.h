@@ -198,7 +198,7 @@ void codeName(DisassembledInstruction* instr) \
     INSTRUCTION(cpy, "CPY")
 
     // Bitwise Operations
-    INSTRUCTION(and, "AND")
+    INSTRUCTION(and_, "AND")
     INSTRUCTION(ora, "ORA")
     INSTRUCTION(eor, "EOR")
     INSTRUCTION(bit, "BIT")

@@ -84,14 +84,14 @@
     case 0xcc: Absolute(am);            cpy(am);    break; \
     \
     /*bitwise operations*/ \
-    case 0x29: Immediate(am);           and(am);    break; \
-    case 0x25: ZeroPage(am);            and(am);    break; \
-    case 0x35: ZeroPageX(am);           and(am);    break; \
-    case 0x2d: Absolute(am);            and(am);    break; \
-    case 0x3d: AbsoluteX(am);           and(am);    break; \
-    case 0x39: AbsoluteY(am);           and(am);    break; \
-    case 0x21: IndexedIndirectX(am);    and(am);    break; \
-    case 0x31: IndirectIndexedY(am);    and(am);    break; \
+    case 0x29: Immediate(am);           and_(am);    break; \
+    case 0x25: ZeroPage(am);            and_(am);    break; \
+    case 0x35: ZeroPageX(am);           and_(am);    break; \
+    case 0x2d: Absolute(am);            and_(am);    break; \
+    case 0x3d: AbsoluteX(am);           and_(am);    break; \
+    case 0x39: AbsoluteY(am);           and_(am);    break; \
+    case 0x21: IndexedIndirectX(am);    and_(am);    break; \
+    case 0x31: IndirectIndexedY(am);    and_(am);    break; \
     \
     case 0x09: Immediate(am);           ora(am);    break; \
     case 0x05: ZeroPage(am);            ora(am);    break; \
@@ -202,6 +202,5 @@
     \
     default: \
         printf("Unimplemented instruction: 0x%02x\n", op); \
-        __debugbreak(); \
     } \
 }

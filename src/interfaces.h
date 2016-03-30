@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\include\nes_interfaces.h"
+#include "../include/nes_interfaces.h"
 
 struct ISaveState : public IBaseInterface
 {

@@ -189,7 +189,6 @@ u8 SxRom::prg_loadb(u16 addr)
         else
         {
             // can't happen
-            __debugbreak();
             return 0;
         }
     }

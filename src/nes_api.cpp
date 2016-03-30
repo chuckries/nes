@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\include\nes_api.h"
+#include "../include/nes_api.h"
 #include "nes.h"
 
 bool Nes_Create(const char* romPath, IAudioProvider* audioProvider, INes** ines)

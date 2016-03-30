@@ -81,5 +81,5 @@ int SdlAudioProvider::GetSilenceValue()
 void SdlAudioProvider::AudioError(const char* error)
 {
     // TODO: Do something different in the emulator?
-    printf_s("Audio Engine Error: %s", error);
+    // printf_s("Audio Engine Error: %s", error);
 }

@@ -6,11 +6,19 @@ int g_dbgEvent = 0;
 int g_dbgParam = 0;
 int g_dbgEnableLoadEvent = 0;
 
-void __declspec(noinline) DebuggerNotify(int dbgEvent, int param)
+#if defined(_WIN32)
+#define NOINLINE __declspec(noinline)
+#else
+#define NOINLINE
+#endif
+
+void NOINLINE DebuggerNotify(int dbgEvent, int param)
 {
     g_dbgEvent = dbgEvent;
     g_dbgParam = param;
+#if defined(_WIN32)
     __debugbreak();
+#endif
 }
 
 DebugService::DebugService()
@@ -22,7 +30,7 @@ DebugService::DebugService()
 
     if (g_dbgEnableLoadEvent)
     {
-        DebuggerNotify(DEBUG_EVENT_LOAD_ROM, (int)this);
+        DebuggerNotify(DEBUG_EVENT_LOAD_ROM, (u64)this);
     }
 }
 

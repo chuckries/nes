@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\include\nes_interfaces.h"
+#include "../include/nes_interfaces.h"
 
 #define BP_MAP_SIZE (0x10000 / 8) // $FFFF address space divided by 8 bits per index
 

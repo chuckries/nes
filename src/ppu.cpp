@@ -583,7 +583,7 @@ bool Ppu::GetBackgroundColor(u8& paletteIndex)
         nameTableBits ^= 0b01;
     }
 
-    u16 nameTableBaseAddress;
+    u16 nameTableBaseAddress = 0;
     switch (nameTableBits)
     {
     case 0: nameTableBaseAddress = 0x2000; break;

@@ -11,7 +11,7 @@
 
 #define MAX_FRAME_CYCLE_COUNT 38000 // Larger than max frame clock cycle count, but can't exceed max unsigned 16-bit integer
 
-static void AudioGenerateCallback(void *userdata, u8 *stream, int len)
+void AudioGenerateCallback(void *userdata, u8 *stream, int len)
 {
     ((AudioEngine*)userdata)->ExecuteCallback(stream, len);
 }
@@ -129,8 +129,6 @@ void AudioEngine::QueueAudioEvent(int cycleCount, int setting, u32 newValue)
     if (_audioProvider != nullptr)
     {
         bool queued = _eventQueue.EnqueueEvent(event);
-        if (!queued)
-            __debugbreak();
     }
 
     if (event.audioSetting == NESAUDIO_FRAME_RESET)

@@ -132,6 +132,7 @@ private:
     {
     public:
         IAddressingMode(Cpu& cpu) : _cpu(cpu) { }
+        virtual ~IAddressingMode() { }
         virtual u8 Load() = 0;
         virtual void Store(u8 val) = 0;
     protected:
@@ -306,7 +307,7 @@ private:
     void cpy(IAddressingMode* am) { cmp_base(am, _regs.Y); }
 
     // Bitwise Operations
-    void and(IAddressingMode* am) { _regs.A = _regs.SetZN(_regs.A & am->Load()); }
+    void and_(IAddressingMode* am) { _regs.A = _regs.SetZN(_regs.A & am->Load()); }
     void ora(IAddressingMode* am) { _regs.A = _regs.SetZN(_regs.A | am->Load()); }
     void eor(IAddressingMode* am) { _regs.A = _regs.SetZN(_regs.A ^ am->Load()); }
     void bit(IAddressingMode* am) 
