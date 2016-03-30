@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		311F90DB1CABBBDF00069AC3 /* neSDL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90D21CABBBDF00069AC3 /* neSDL.cpp */; };
+		311F90DC1CABBBDF00069AC3 /* sdlAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90D31CABBBDF00069AC3 /* sdlAudio.cpp */; };
+		311F90DD1CABBBDF00069AC3 /* sdlGfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90D51CABBBDF00069AC3 /* sdlGfx.cpp */; };
+		311F90DE1CABBBDF00069AC3 /* sdlInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90D71CABBBDF00069AC3 /* sdlInput.cpp */; };
+		311F90DF1CABBBDF00069AC3 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90D91CABBBDF00069AC3 /* stdafx.cpp */; };
+		311F90E61CABBC2300069AC3 /* libnes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F90E41CABBC1D00069AC3 /* libnes.a */; };
+		311F90E71CABBC4900069AC3 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F90E21CABBC1600069AC3 /* libSDL2.a */; };
+		311F90EB1CABC18100069AC3 /* libSDL2main.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F90EA1CABC18100069AC3 /* libSDL2main.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		311F90C51CABBB7300069AC3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		311F90C71CABBB7300069AC3 /* neSDL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = neSDL; sourceTree = BUILT_PRODUCTS_DIR; };
+		311F90D21CABBBDF00069AC3 /* neSDL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = neSDL.cpp; path = ../../neSDL/neSDL.cpp; sourceTree = "<group>"; };
+		311F90D31CABBBDF00069AC3 /* sdlAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sdlAudio.cpp; path = ../../neSDL/sdlAudio.cpp; sourceTree = "<group>"; };
+		311F90D41CABBBDF00069AC3 /* sdlAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sdlAudio.h; path = ../../neSDL/sdlAudio.h; sourceTree = "<group>"; };
+		311F90D51CABBBDF00069AC3 /* sdlGfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sdlGfx.cpp; path = ../../neSDL/sdlGfx.cpp; sourceTree = "<group>"; };
+		311F90D61CABBBDF00069AC3 /* sdlGfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sdlGfx.h; path = ../../neSDL/sdlGfx.h; sourceTree = "<group>"; };
+		311F90D71CABBBDF00069AC3 /* sdlInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sdlInput.cpp; path = ../../neSDL/sdlInput.cpp; sourceTree = "<group>"; };
+		311F90D81CABBBDF00069AC3 /* sdlInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sdlInput.h; path = ../../neSDL/sdlInput.h; sourceTree = "<group>"; };
+		311F90D91CABBBDF00069AC3 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../neSDL/stdafx.cpp; sourceTree = "<group>"; };
+		311F90DA1CABBBDF00069AC3 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../neSDL/stdafx.h; sourceTree = "<group>"; };
+		311F90E21CABBC1600069AC3 /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = ../../../../../../../usr/local/Cellar/sdl2/2.0.4/lib/libSDL2.a; sourceTree = "<group>"; };
+		311F90E41CABBC1D00069AC3 /* libnes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnes.a; path = "../../../../../Library/Developer/Xcode/DerivedData/nes-cpuzetygarkbxngrqxhelnwirhwo/Build/Products/Debug/libnes.a"; sourceTree = "<group>"; };
+		311F90EA1CABC18100069AC3 /* libSDL2main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2main.a; path = ../../../../../../../usr/local/Cellar/sdl2/2.0.4/lib/libSDL2main.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		311F90C41CABBB7300069AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90EB1CABC18100069AC3 /* libSDL2main.a in Frameworks */,
+				311F90E71CABBC4900069AC3 /* libSDL2.a in Frameworks */,
+				311F90E61CABBC2300069AC3 /* libnes.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		311F90BE1CABBB7300069AC3 = {
+			isa = PBXGroup;
+			children = (
+				311F90EA1CABC18100069AC3 /* libSDL2main.a */,
+				311F90E41CABBC1D00069AC3 /* libnes.a */,
+				311F90E21CABBC1600069AC3 /* libSDL2.a */,
+				311F90D21CABBBDF00069AC3 /* neSDL.cpp */,
+				311F90D31CABBBDF00069AC3 /* sdlAudio.cpp */,
+				311F90D41CABBBDF00069AC3 /* sdlAudio.h */,
+				311F90D51CABBBDF00069AC3 /* sdlGfx.cpp */,
+				311F90D61CABBBDF00069AC3 /* sdlGfx.h */,
+				311F90D71CABBBDF00069AC3 /* sdlInput.cpp */,
+				311F90D81CABBBDF00069AC3 /* sdlInput.h */,
+				311F90D91CABBBDF00069AC3 /* stdafx.cpp */,
+				311F90DA1CABBBDF00069AC3 /* stdafx.h */,
+				311F90C81CABBB7300069AC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		311F90C81CABBB7300069AC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				311F90C71CABBB7300069AC3 /* neSDL */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		311F90C61CABBB7300069AC3 /* neSDL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 311F90CE1CABBB7300069AC3 /* Build configuration list for PBXNativeTarget "neSDL" */;
+			buildPhases = (
+				311F90C31CABBB7300069AC3 /* Sources */,
+				311F90C41CABBB7300069AC3 /* Frameworks */,
+				311F90C51CABBB7300069AC3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = neSDL;
+			productName = neSDL;
+			productReference = 311F90C71CABBB7300069AC3 /* neSDL */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		311F90BF1CABBB7300069AC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = nestools;
+				TargetAttributes = {
+					311F90C61CABBB7300069AC3 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 311F90C21CABBB7300069AC3 /* Build configuration list for PBXProject "neSDL" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 311F90BE1CABBB7300069AC3;
+			productRefGroup = 311F90C81CABBB7300069AC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				311F90C61CABBB7300069AC3 /* neSDL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		311F90C31CABBB7300069AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90DE1CABBBDF00069AC3 /* sdlInput.cpp in Sources */,
+				311F90DD1CABBBDF00069AC3 /* sdlGfx.cpp in Sources */,
+				311F90DC1CABBBDF00069AC3 /* sdlAudio.cpp in Sources */,
+				311F90DB1CABBBDF00069AC3 /* neSDL.cpp in Sources */,
+				311F90DF1CABBBDF00069AC3 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		311F90CC1CABBB7300069AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		311F90CD1CABBB7300069AC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		311F90CF1CABBB7300069AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../neSDL/stdafx.cpp;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/sdl2/2.0.4/include/SDL2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sdl2/2.0.4/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../include;
+			};
+			name = Debug;
+		};
+		311F90D01CABBB7300069AC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../neSDL/stdafx.cpp;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/sdl2/2.0.4/include/SDL2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sdl2/2.0.4/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../include;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		311F90C21CABBB7300069AC3 /* Build configuration list for PBXProject "neSDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				311F90CC1CABBB7300069AC3 /* Debug */,
+				311F90CD1CABBB7300069AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		311F90CE1CABBB7300069AC3 /* Build configuration list for PBXNativeTarget "neSDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				311F90CF1CABBB7300069AC3 /* Debug */,
+				311F90D01CABBB7300069AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 311F90BF1CABBB7300069AC3 /* Project object */;
+}

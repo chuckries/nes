@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		311F90401CAB7C5600069AC3 /* nes_api.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903C1CAB7C5600069AC3 /* nes_api.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90411CAB7C5600069AC3 /* nes_interfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903D1CAB7C5600069AC3 /* nes_interfaces.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90421CAB7C5600069AC3 /* nptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903E1CAB7C5600069AC3 /* nptr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90431CAB7C5600069AC3 /* object.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903F1CAB7C5600069AC3 /* object.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90631CAB7C6200069AC3 /* apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90441CAB7C6200069AC3 /* apu.cpp */; };
+		311F90641CAB7C6200069AC3 /* apu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90451CAB7C6200069AC3 /* apu.h */; };
+		311F90651CAB7C6200069AC3 /* audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90461CAB7C6200069AC3 /* audio.cpp */; };
+		311F90661CAB7C6200069AC3 /* audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90471CAB7C6200069AC3 /* audio.h */; };
+		311F90671CAB7C6200069AC3 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90481CAB7C6200069AC3 /* cpu.cpp */; };
+		311F90681CAB7C6200069AC3 /* cpu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90491CAB7C6200069AC3 /* cpu.h */; };
+		311F90691CAB7C6200069AC3 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F904A1CAB7C6200069AC3 /* debug.cpp */; };
+		311F906A1CAB7C6200069AC3 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904B1CAB7C6200069AC3 /* debug.h */; };
+		311F906B1CAB7C6200069AC3 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904C1CAB7C6200069AC3 /* decode.h */; };
+		311F906C1CAB7C6200069AC3 /* diassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904D1CAB7C6200069AC3 /* diassembler.h */; };
+		311F906D1CAB7C6200069AC3 /* disassembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F904E1CAB7C6200069AC3 /* disassembler.cpp */; };
+		311F906E1CAB7C6200069AC3 /* eventqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904F1CAB7C6200069AC3 /* eventqueue.h */; };
+		311F906F1CAB7C6200069AC3 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90501CAB7C6200069AC3 /* input.cpp */; };
+		311F90701CAB7C6200069AC3 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90511CAB7C6200069AC3 /* input.h */; };
+		311F90711CAB7C6200069AC3 /* interfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90521CAB7C6200069AC3 /* interfaces.h */; };
+		311F90721CAB7C6200069AC3 /* mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90531CAB7C6200069AC3 /* mapper.cpp */; };
+		311F90731CAB7C6200069AC3 /* mapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90541CAB7C6200069AC3 /* mapper.h */; };
+		311F90741CAB7C6200069AC3 /* mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90551CAB7C6200069AC3 /* mem.cpp */; };
+		311F90751CAB7C6200069AC3 /* mem.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90561CAB7C6200069AC3 /* mem.h */; };
+		311F90761CAB7C6200069AC3 /* nes_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90571CAB7C6200069AC3 /* nes_api.cpp */; };
+		311F90771CAB7C6200069AC3 /* nes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90581CAB7C6200069AC3 /* nes.cpp */; };
+		311F90781CAB7C6200069AC3 /* nes.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90591CAB7C6200069AC3 /* nes.h */; };
+		311F90791CAB7C6200069AC3 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905A1CAB7C6200069AC3 /* ppu.cpp */; };
+		311F907A1CAB7C6200069AC3 /* ppu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905B1CAB7C6200069AC3 /* ppu.h */; };
+		311F907B1CAB7C6200069AC3 /* rom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905C1CAB7C6200069AC3 /* rom.cpp */; };
+		311F907C1CAB7C6200069AC3 /* rom.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905D1CAB7C6200069AC3 /* rom.h */; };
+		311F907D1CAB7C6200069AC3 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905E1CAB7C6200069AC3 /* stdafx.cpp */; };
+		311F907E1CAB7C6200069AC3 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905F1CAB7C6200069AC3 /* stdafx.h */; };
+		311F907F1CAB7C6200069AC3 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90601CAB7C6200069AC3 /* types.h */; };
+		311F90801CAB7C6200069AC3 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90611CAB7C6200069AC3 /* util.cpp */; };
+		311F90811CAB7C6200069AC3 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90621CAB7C6200069AC3 /* util.h */; };
+		311F908A1CABB8C600069AC3 /* apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90441CAB7C6200069AC3 /* apu.cpp */; };
+		311F908C1CABB8C600069AC3 /* audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90461CAB7C6200069AC3 /* audio.cpp */; };
+		311F908E1CABB8C600069AC3 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90481CAB7C6200069AC3 /* cpu.cpp */; };
+		311F90901CABB8C600069AC3 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F904A1CAB7C6200069AC3 /* debug.cpp */; };
+		311F90941CABB8C600069AC3 /* disassembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F904E1CAB7C6200069AC3 /* disassembler.cpp */; };
+		311F90961CABB8C600069AC3 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90501CAB7C6200069AC3 /* input.cpp */; };
+		311F90991CABB8C600069AC3 /* mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90531CAB7C6200069AC3 /* mapper.cpp */; };
+		311F909B1CABB8C600069AC3 /* mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90551CAB7C6200069AC3 /* mem.cpp */; };
+		311F909D1CABB8C600069AC3 /* nes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90581CAB7C6200069AC3 /* nes.cpp */; };
+		311F909F1CABB8C600069AC3 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905A1CAB7C6200069AC3 /* ppu.cpp */; };
+		311F90A11CABB8C600069AC3 /* rom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905C1CAB7C6200069AC3 /* rom.cpp */; };
+		311F90A31CABB8C600069AC3 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F905E1CAB7C6200069AC3 /* stdafx.cpp */; };
+		311F90A61CABB8C600069AC3 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90611CAB7C6200069AC3 /* util.cpp */; };
+		311F90A81CABB93F00069AC3 /* apu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90451CAB7C6200069AC3 /* apu.h */; };
+		311F90A91CABB93F00069AC3 /* audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90471CAB7C6200069AC3 /* audio.h */; };
+		311F90AA1CABB93F00069AC3 /* cpu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90491CAB7C6200069AC3 /* cpu.h */; };
+		311F90AB1CABB93F00069AC3 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904B1CAB7C6200069AC3 /* debug.h */; };
+		311F90AC1CABB93F00069AC3 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904C1CAB7C6200069AC3 /* decode.h */; };
+		311F90AD1CABB93F00069AC3 /* diassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904D1CAB7C6200069AC3 /* diassembler.h */; };
+		311F90AE1CABB93F00069AC3 /* eventqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F904F1CAB7C6200069AC3 /* eventqueue.h */; };
+		311F90AF1CABB93F00069AC3 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90511CAB7C6200069AC3 /* input.h */; };
+		311F90B01CABB93F00069AC3 /* interfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90521CAB7C6200069AC3 /* interfaces.h */; };
+		311F90B11CABB93F00069AC3 /* mapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90541CAB7C6200069AC3 /* mapper.h */; };
+		311F90B21CABB93F00069AC3 /* mem.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90561CAB7C6200069AC3 /* mem.h */; };
+		311F90B31CABB93F00069AC3 /* nes.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90591CAB7C6200069AC3 /* nes.h */; };
+		311F90B41CABB93F00069AC3 /* ppu.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905B1CAB7C6200069AC3 /* ppu.h */; };
+		311F90B51CABB93F00069AC3 /* rom.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905D1CAB7C6200069AC3 /* rom.h */; };
+		311F90B61CABB93F00069AC3 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F905F1CAB7C6200069AC3 /* stdafx.h */; };
+		311F90B71CABB93F00069AC3 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90601CAB7C6200069AC3 /* types.h */; };
+		311F90B81CABB93F00069AC3 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F90621CAB7C6200069AC3 /* util.h */; };
+		311F90B91CABB95A00069AC3 /* nes_interfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903D1CAB7C5600069AC3 /* nes_interfaces.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90BA1CABB95A00069AC3 /* nptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903E1CAB7C5600069AC3 /* nptr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90BB1CABB95A00069AC3 /* object.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903F1CAB7C5600069AC3 /* object.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		311F90BC1CABBAA200069AC3 /* nes_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311F90571CAB7C6200069AC3 /* nes_api.cpp */; };
+		311F90BD1CABBAAD00069AC3 /* nes_api.h in Headers */ = {isa = PBXBuildFile; fileRef = 311F903C1CAB7C5600069AC3 /* nes_api.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		311F90281CAB7B8E00069AC3 /* libnes.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libnes.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		311F903C1CAB7C5600069AC3 /* nes_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nes_api.h; path = ../../include/nes_api.h; sourceTree = "<group>"; };
+		311F903D1CAB7C5600069AC3 /* nes_interfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nes_interfaces.h; path = ../../include/nes_interfaces.h; sourceTree = SOURCE_ROOT; };
+		311F903E1CAB7C5600069AC3 /* nptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nptr.h; path = ../../include/nptr.h; sourceTree = SOURCE_ROOT; };
+		311F903F1CAB7C5600069AC3 /* object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = object.h; path = ../../include/object.h; sourceTree = SOURCE_ROOT; };
+		311F90441CAB7C6200069AC3 /* apu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = apu.cpp; path = ../../src/apu.cpp; sourceTree = "<group>"; };
+		311F90451CAB7C6200069AC3 /* apu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = apu.h; path = ../../src/apu.h; sourceTree = "<group>"; };
+		311F90461CAB7C6200069AC3 /* audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = audio.cpp; path = ../../src/audio.cpp; sourceTree = "<group>"; };
+		311F90471CAB7C6200069AC3 /* audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audio.h; path = ../../src/audio.h; sourceTree = "<group>"; };
+		311F90481CAB7C6200069AC3 /* cpu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cpu.cpp; path = ../../src/cpu.cpp; sourceTree = "<group>"; };
+		311F90491CAB7C6200069AC3 /* cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cpu.h; path = ../../src/cpu.h; sourceTree = "<group>"; };
+		311F904A1CAB7C6200069AC3 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = ../../src/debug.cpp; sourceTree = "<group>"; };
+		311F904B1CAB7C6200069AC3 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = debug.h; path = ../../src/debug.h; sourceTree = "<group>"; };
+		311F904C1CAB7C6200069AC3 /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = decode.h; path = ../../src/decode.h; sourceTree = "<group>"; };
+		311F904D1CAB7C6200069AC3 /* diassembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = diassembler.h; path = ../../src/diassembler.h; sourceTree = "<group>"; };
+		311F904E1CAB7C6200069AC3 /* disassembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = disassembler.cpp; path = ../../src/disassembler.cpp; sourceTree = "<group>"; };
+		311F904F1CAB7C6200069AC3 /* eventqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eventqueue.h; path = ../../src/eventqueue.h; sourceTree = "<group>"; };
+		311F90501CAB7C6200069AC3 /* input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = input.cpp; path = ../../src/input.cpp; sourceTree = "<group>"; };
+		311F90511CAB7C6200069AC3 /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = ../../src/input.h; sourceTree = "<group>"; };
+		311F90521CAB7C6200069AC3 /* interfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = interfaces.h; path = ../../src/interfaces.h; sourceTree = "<group>"; };
+		311F90531CAB7C6200069AC3 /* mapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mapper.cpp; path = ../../src/mapper.cpp; sourceTree = "<group>"; };
+		311F90541CAB7C6200069AC3 /* mapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mapper.h; path = ../../src/mapper.h; sourceTree = "<group>"; };
+		311F90551CAB7C6200069AC3 /* mem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mem.cpp; path = ../../src/mem.cpp; sourceTree = "<group>"; };
+		311F90561CAB7C6200069AC3 /* mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mem.h; path = ../../src/mem.h; sourceTree = "<group>"; };
+		311F90571CAB7C6200069AC3 /* nes_api.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = nes_api.cpp; path = ../../src/nes_api.cpp; sourceTree = "<group>"; };
+		311F90581CAB7C6200069AC3 /* nes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = nes.cpp; path = ../../src/nes.cpp; sourceTree = "<group>"; };
+		311F90591CAB7C6200069AC3 /* nes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nes.h; path = ../../src/nes.h; sourceTree = "<group>"; };
+		311F905A1CAB7C6200069AC3 /* ppu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ppu.cpp; path = ../../src/ppu.cpp; sourceTree = "<group>"; };
+		311F905B1CAB7C6200069AC3 /* ppu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ppu.h; path = ../../src/ppu.h; sourceTree = "<group>"; };
+		311F905C1CAB7C6200069AC3 /* rom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rom.cpp; path = ../../src/rom.cpp; sourceTree = "<group>"; };
+		311F905D1CAB7C6200069AC3 /* rom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rom.h; path = ../../src/rom.h; sourceTree = "<group>"; };
+		311F905E1CAB7C6200069AC3 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../src/stdafx.cpp; sourceTree = "<group>"; };
+		311F905F1CAB7C6200069AC3 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../src/stdafx.h; sourceTree = "<group>"; };
+		311F90601CAB7C6200069AC3 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = types.h; path = ../../src/types.h; sourceTree = "<group>"; };
+		311F90611CAB7C6200069AC3 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../../src/util.cpp; sourceTree = "<group>"; };
+		311F90621CAB7C6200069AC3 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../src/util.h; sourceTree = "<group>"; };
+		311F90861CAB7F2700069AC3 /* libnes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libnes.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		311F90251CAB7B8E00069AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		311F90831CAB7F2700069AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		311F901F1CAB7B8E00069AC3 = {
+			isa = PBXGroup;
+			children = (
+				311F903B1CAB7C4500069AC3 /* include */,
+				311F903A1CAB7C3800069AC3 /* src */,
+				311F90291CAB7B8E00069AC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		311F90291CAB7B8E00069AC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				311F90281CAB7B8E00069AC3 /* libnes.dylib */,
+				311F90861CAB7F2700069AC3 /* libnes.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		311F903A1CAB7C3800069AC3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				311F90441CAB7C6200069AC3 /* apu.cpp */,
+				311F90451CAB7C6200069AC3 /* apu.h */,
+				311F90461CAB7C6200069AC3 /* audio.cpp */,
+				311F90471CAB7C6200069AC3 /* audio.h */,
+				311F90481CAB7C6200069AC3 /* cpu.cpp */,
+				311F90491CAB7C6200069AC3 /* cpu.h */,
+				311F904A1CAB7C6200069AC3 /* debug.cpp */,
+				311F904B1CAB7C6200069AC3 /* debug.h */,
+				311F904C1CAB7C6200069AC3 /* decode.h */,
+				311F904D1CAB7C6200069AC3 /* diassembler.h */,
+				311F904E1CAB7C6200069AC3 /* disassembler.cpp */,
+				311F904F1CAB7C6200069AC3 /* eventqueue.h */,
+				311F90501CAB7C6200069AC3 /* input.cpp */,
+				311F90511CAB7C6200069AC3 /* input.h */,
+				311F90521CAB7C6200069AC3 /* interfaces.h */,
+				311F90531CAB7C6200069AC3 /* mapper.cpp */,
+				311F90541CAB7C6200069AC3 /* mapper.h */,
+				311F90551CAB7C6200069AC3 /* mem.cpp */,
+				311F90561CAB7C6200069AC3 /* mem.h */,
+				311F90571CAB7C6200069AC3 /* nes_api.cpp */,
+				311F90581CAB7C6200069AC3 /* nes.cpp */,
+				311F90591CAB7C6200069AC3 /* nes.h */,
+				311F905A1CAB7C6200069AC3 /* ppu.cpp */,
+				311F905B1CAB7C6200069AC3 /* ppu.h */,
+				311F905C1CAB7C6200069AC3 /* rom.cpp */,
+				311F905D1CAB7C6200069AC3 /* rom.h */,
+				311F905E1CAB7C6200069AC3 /* stdafx.cpp */,
+				311F905F1CAB7C6200069AC3 /* stdafx.h */,
+				311F90601CAB7C6200069AC3 /* types.h */,
+				311F90611CAB7C6200069AC3 /* util.cpp */,
+				311F90621CAB7C6200069AC3 /* util.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		311F903B1CAB7C4500069AC3 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				311F903C1CAB7C5600069AC3 /* nes_api.h */,
+				311F903D1CAB7C5600069AC3 /* nes_interfaces.h */,
+				311F903E1CAB7C5600069AC3 /* nptr.h */,
+				311F903F1CAB7C5600069AC3 /* object.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		311F90261CAB7B8E00069AC3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90431CAB7C5600069AC3 /* object.h in Headers */,
+				311F90401CAB7C5600069AC3 /* nes_api.h in Headers */,
+				311F90411CAB7C5600069AC3 /* nes_interfaces.h in Headers */,
+				311F90421CAB7C5600069AC3 /* nptr.h in Headers */,
+				311F907A1CAB7C6200069AC3 /* ppu.h in Headers */,
+				311F907E1CAB7C6200069AC3 /* stdafx.h in Headers */,
+				311F90781CAB7C6200069AC3 /* nes.h in Headers */,
+				311F907C1CAB7C6200069AC3 /* rom.h in Headers */,
+				311F90641CAB7C6200069AC3 /* apu.h in Headers */,
+				311F906B1CAB7C6200069AC3 /* decode.h in Headers */,
+				311F90661CAB7C6200069AC3 /* audio.h in Headers */,
+				311F906A1CAB7C6200069AC3 /* debug.h in Headers */,
+				311F90681CAB7C6200069AC3 /* cpu.h in Headers */,
+				311F90811CAB7C6200069AC3 /* util.h in Headers */,
+				311F906C1CAB7C6200069AC3 /* diassembler.h in Headers */,
+				311F90701CAB7C6200069AC3 /* input.h in Headers */,
+				311F90711CAB7C6200069AC3 /* interfaces.h in Headers */,
+				311F906E1CAB7C6200069AC3 /* eventqueue.h in Headers */,
+				311F90751CAB7C6200069AC3 /* mem.h in Headers */,
+				311F907F1CAB7C6200069AC3 /* types.h in Headers */,
+				311F90731CAB7C6200069AC3 /* mapper.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		311F90841CAB7F2700069AC3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90B91CABB95A00069AC3 /* nes_interfaces.h in Headers */,
+				311F90BA1CABB95A00069AC3 /* nptr.h in Headers */,
+				311F90BD1CABBAAD00069AC3 /* nes_api.h in Headers */,
+				311F90BB1CABB95A00069AC3 /* object.h in Headers */,
+				311F90A81CABB93F00069AC3 /* apu.h in Headers */,
+				311F90A91CABB93F00069AC3 /* audio.h in Headers */,
+				311F90AA1CABB93F00069AC3 /* cpu.h in Headers */,
+				311F90AB1CABB93F00069AC3 /* debug.h in Headers */,
+				311F90AC1CABB93F00069AC3 /* decode.h in Headers */,
+				311F90AD1CABB93F00069AC3 /* diassembler.h in Headers */,
+				311F90AE1CABB93F00069AC3 /* eventqueue.h in Headers */,
+				311F90AF1CABB93F00069AC3 /* input.h in Headers */,
+				311F90B01CABB93F00069AC3 /* interfaces.h in Headers */,
+				311F90B11CABB93F00069AC3 /* mapper.h in Headers */,
+				311F90B21CABB93F00069AC3 /* mem.h in Headers */,
+				311F90B31CABB93F00069AC3 /* nes.h in Headers */,
+				311F90B41CABB93F00069AC3 /* ppu.h in Headers */,
+				311F90B51CABB93F00069AC3 /* rom.h in Headers */,
+				311F90B61CABB93F00069AC3 /* stdafx.h in Headers */,
+				311F90B71CABB93F00069AC3 /* types.h in Headers */,
+				311F90B81CABB93F00069AC3 /* util.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		311F90271CAB7B8E00069AC3 /* Shared Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 311F90331CAB7B8E00069AC3 /* Build configuration list for PBXNativeTarget "Shared Library" */;
+			buildPhases = (
+				311F90241CAB7B8E00069AC3 /* Sources */,
+				311F90251CAB7B8E00069AC3 /* Frameworks */,
+				311F90261CAB7B8E00069AC3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Shared Library";
+			productName = nes;
+			productReference = 311F90281CAB7B8E00069AC3 /* libnes.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		311F90851CAB7F2700069AC3 /* Static Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 311F90871CAB7F2700069AC3 /* Build configuration list for PBXNativeTarget "Static Library" */;
+			buildPhases = (
+				311F90821CAB7F2700069AC3 /* Sources */,
+				311F90831CAB7F2700069AC3 /* Frameworks */,
+				311F90841CAB7F2700069AC3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Static Library";
+			productName = "Static Library";
+			productReference = 311F90861CAB7F2700069AC3 /* libnes.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		311F90201CAB7B8E00069AC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = nestools;
+				TargetAttributes = {
+					311F90271CAB7B8E00069AC3 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					311F90851CAB7F2700069AC3 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 311F90231CAB7B8E00069AC3 /* Build configuration list for PBXProject "nes" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 311F901F1CAB7B8E00069AC3;
+			productRefGroup = 311F90291CAB7B8E00069AC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				311F90271CAB7B8E00069AC3 /* Shared Library */,
+				311F90851CAB7F2700069AC3 /* Static Library */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		311F90241CAB7B8E00069AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90671CAB7C6200069AC3 /* cpu.cpp in Sources */,
+				311F90791CAB7C6200069AC3 /* ppu.cpp in Sources */,
+				311F90691CAB7C6200069AC3 /* debug.cpp in Sources */,
+				311F906F1CAB7C6200069AC3 /* input.cpp in Sources */,
+				311F90651CAB7C6200069AC3 /* audio.cpp in Sources */,
+				311F90631CAB7C6200069AC3 /* apu.cpp in Sources */,
+				311F907B1CAB7C6200069AC3 /* rom.cpp in Sources */,
+				311F90761CAB7C6200069AC3 /* nes_api.cpp in Sources */,
+				311F906D1CAB7C6200069AC3 /* disassembler.cpp in Sources */,
+				311F90801CAB7C6200069AC3 /* util.cpp in Sources */,
+				311F907D1CAB7C6200069AC3 /* stdafx.cpp in Sources */,
+				311F90721CAB7C6200069AC3 /* mapper.cpp in Sources */,
+				311F90771CAB7C6200069AC3 /* nes.cpp in Sources */,
+				311F90741CAB7C6200069AC3 /* mem.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		311F90821CAB7F2700069AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311F90BC1CABBAA200069AC3 /* nes_api.cpp in Sources */,
+				311F908A1CABB8C600069AC3 /* apu.cpp in Sources */,
+				311F908C1CABB8C600069AC3 /* audio.cpp in Sources */,
+				311F908E1CABB8C600069AC3 /* cpu.cpp in Sources */,
+				311F90901CABB8C600069AC3 /* debug.cpp in Sources */,
+				311F90941CABB8C600069AC3 /* disassembler.cpp in Sources */,
+				311F90961CABB8C600069AC3 /* input.cpp in Sources */,
+				311F90991CABB8C600069AC3 /* mapper.cpp in Sources */,
+				311F909B1CABB8C600069AC3 /* mem.cpp in Sources */,
+				311F909D1CABB8C600069AC3 /* nes.cpp in Sources */,
+				311F909F1CABB8C600069AC3 /* ppu.cpp in Sources */,
+				311F90A11CABB8C600069AC3 /* rom.cpp in Sources */,
+				311F90A31CABB8C600069AC3 /* stdafx.cpp in Sources */,
+				311F90A61CABB8C600069AC3 /* util.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		311F90311CAB7B8E00069AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		311F90321CAB7B8E00069AC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		311F90341CAB7B8E00069AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../src/stdafx.cpp;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = nes;
+			};
+			name = Debug;
+		};
+		311F90351CAB7B8E00069AC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../src/stdafx.cpp;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = nes;
+			};
+			name = Release;
+		};
+		311F90881CAB7F2700069AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = nes;
+			};
+			name = Debug;
+		};
+		311F90891CAB7F2700069AC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = nes;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		311F90231CAB7B8E00069AC3 /* Build configuration list for PBXProject "nes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				311F90311CAB7B8E00069AC3 /* Debug */,
+				311F90321CAB7B8E00069AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		311F90331CAB7B8E00069AC3 /* Build configuration list for PBXNativeTarget "Shared Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				311F90341CAB7B8E00069AC3 /* Debug */,
+				311F90351CAB7B8E00069AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		311F90871CAB7F2700069AC3 /* Build configuration list for PBXNativeTarget "Static Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				311F90881CAB7F2700069AC3 /* Debug */,
+				311F90891CAB7F2700069AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 311F90201CAB7B8E00069AC3 /* Project object */;
+}
