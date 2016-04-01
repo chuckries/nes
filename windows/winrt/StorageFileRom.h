@@ -8,7 +8,7 @@ private:
     StorageFileReadStream(Windows::Storage::Streams::DataReader^ dataReader);
 
 public:
-    static bool Create(Windows::Storage::StorageFile^, IReadStream** stream);
+    static bool Create(Windows::Storage::Streams::IRandomAccessStream^, IReadStream** stream);
 
 public:
     DELEGATE_NESOBJECT_REFCOUNTING();
@@ -32,7 +32,7 @@ private:
 class StorageFileRom : public IRomFile, public NesObject
 {
 public:
-    StorageFileRom(Windows::Storage::StorageFile^ romFile);
+    StorageFileRom(Windows::Storage::Streams::IRandomAccessStream^ romStream);
 
 public:
     DELEGATE_NESOBJECT_REFCOUNTING();
@@ -43,5 +43,6 @@ public:
     bool GetLoadGameStream(IReadStream** stream);
 
 private:
-    Windows::Storage::StorageFile^ _romFile;
+    //Windows::Storage::StorageFile^ _romFile;
+    Windows::Storage::Streams::IRandomAccessStream^ _stream;
 };

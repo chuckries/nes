@@ -27,7 +27,7 @@ namespace NesRuntimeComponent
         virtual ~Nes();
 
     public:
-        static Windows::Foundation::IAsyncOperation<Nes^>^ Create(Windows::Storage::StorageFile^ romFile);
+        static Windows::Foundation::IAsyncOperation<Nes^>^ Create(Windows::Storage::Streams::IRandomAccessStream^ romFile);
         void DoFrame(Platform::WriteOnlyArray<unsigned char>^ screen);
         StandardController^ GetStandardController(unsigned int port);
 

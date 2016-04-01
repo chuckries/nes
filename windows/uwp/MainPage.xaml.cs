@@ -12,6 +12,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
+using Microsoft.OneDrive.Sdk;
+using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.Streams;
+using System.IO;
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace nesUWP
@@ -78,21 +84,51 @@ namespace nesUWP
 
         private async Task CreateResourcesAsync(CanvasAnimatedControl sender)
         {
+            OneDriveClient client = null;
+
+            try
+            {
+                client = await OneDriveClientExtensions.GetAuthenticatedUniversalClient(new string[] { "onedrive.readonly", "wl.offline_access", "wl.signin", "onedrive.appfolder"}) as OneDriveClient;
+            }
+            catch(OneDriveException e)
+            {
+                Debug.WriteLine(e.Error.Message);
+                client.Dispose();
+                App.Current.Exit();
+            }
+
+            var romContent = await client.Drive.Root.Children["smb.nes"].Content.Request().GetAsync();
+
+            //var romContent = await client.Drive.Special.AppRoot.ItemWithPath("roms/smb.nes").Content.Request().GetAsync();
+
+            //Windows.Storage.StreamedFileDataRequestedHandler handler = new Windows.Storage.StreamedFileDataRequestedHandler(async (Windows.Storage.StreamedFileDataRequest request) =>
+            //{
+            //    byte[] buf = new byte[romContent.Length];
+            //    romContent.Read(buf, 0, (int)romContent.Length);
+            //    await request.WriteAsync(buf.AsBuffer());
+            //});
+
+            //var file = await Windows.Storage.StorageFile.CreateStreamedFileAsync("smb.nes", handler, null);
+
+
             _bitmapBytes = new byte[256 * 240 * 4];
 
-            var file = _romFile;
-            if (file == null)
-            {
-                var picker = new FileOpenPicker();
-                picker.FileTypeFilter.Add(".nes");
-                file = await picker.PickSingleFileAsync();
-            }
-            _nes = await Nes.Create(file);
+            //var file = _romFile;
+            //if (file == null)
+            //{
+            //    var picker = new FileOpenPicker();
+            //    picker.FileTypeFilter.Add(".nes");
+            //    file = await picker.PickSingleFileAsync();
+            //}
+
+            IRandomAccessStream stream = romContent.AsRandomAccessStream();
+
+            _nes = await Nes.Create(stream);
             _controller0 = _nes.GetStandardController(0);
             Window.Current.CoreWindow.KeyDown += HandleKey;
             Window.Current.CoreWindow.KeyUp += HandleKey;
-            sender.Width = 256 * 3;
-            sender.Height = 240 * 3;
+            sender.Width = 256 * 2;
+            sender.Height = 240 * 2;
         }
 
         private void HandleKey(CoreWindow sender, KeyEventArgs args)
@@ -103,27 +139,36 @@ namespace nesUWP
                 switch (args.VirtualKey)
                 {
                     case VirtualKey.S:
+                    case VirtualKey.GamepadA:
                         _controller0.A(state);
                         break;
                     case VirtualKey.A:
+                    case VirtualKey.GamepadX:
                         _controller0.B(state);
                         break;
                     case VirtualKey.Shift:
+                    case (VirtualKey)0xde:
+                    case VirtualKey.GamepadView:
                         _controller0.Select(state);
                         break;
                     case VirtualKey.Enter:
+                    case VirtualKey.GamepadMenu:
                         _controller0.Start(state);
                         break;
                     case VirtualKey.Up:
+                    case VirtualKey.GamepadDPadUp:
                         _controller0.Up(state);
                         break;
                     case VirtualKey.Down:
+                    case VirtualKey.GamepadDPadDown:
                         _controller0.Down(state);
                         break;
                     case VirtualKey.Left:
+                    case VirtualKey.GamepadDPadLeft:
                         _controller0.Left(state);
                         break;
                     case VirtualKey.Right:
+                    case VirtualKey.GamepadDPadRight:
                         _controller0.Right(state);
                         break;
                 }
