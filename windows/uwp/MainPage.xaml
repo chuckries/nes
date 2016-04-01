@@ -9,12 +9,24 @@
     mc:Ignorable="d"
     >
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <canvas:CanvasAnimatedControl 
-            x:Name="canvas"
-            Draw="canvas_Draw"
-            Update="canvas_Update"
-            CreateResources="canvas_CreateResources"
+    <Grid
+        Background="Black"
+        Margin="0"
+        Padding="0">
+        <Border
+            BorderBrush="White"
+            BorderThickness="1"
+            Width="{Binding Path=Width, ElementName=canvas}"
+            Height="{Binding Path=Height, ElementName=canvas}">
+
+            <canvas:CanvasAnimatedControl
+                x:Name="canvas"
+                Draw="canvas_Draw"
+                Update="canvas_Update"
+                CreateResources="canvas_CreateResources"
+                Width="{Binding Path=CanvasWidth}"
+                Height="{Binding Path=CanvasHeight}"
             />
+        </Border>
     </Grid>
 </Page>

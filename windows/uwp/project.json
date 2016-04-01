@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Microsoft.OneDriveSDK": "1.1.29",
     "Win2D.uwp": "1.16.0"
   },
   "frameworks": {

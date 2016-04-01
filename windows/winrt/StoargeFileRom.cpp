@@ -11,17 +11,14 @@ StorageFileReadStream::StorageFileReadStream(DataReader^ dataReader)
 {
 }
 
-bool StorageFileReadStream::Create(StorageFile^ file, IReadStream** stream)
+bool StorageFileReadStream::Create(IRandomAccessStream^ stream, IReadStream** outStream)
 {
-    *stream = nullptr;
-    bool ret = false;
-    return create_task(file->OpenReadAsync()).then([=](IRandomAccessStreamWithContentType^ fileStream) {
-        DataReader^ reader = ref new DataReader(fileStream);
-        return create_task(reader->LoadAsync(fileStream->Size)).then([=](unsigned int count)
-        {
-            *stream = new StorageFileReadStream(reader);
-            return true;
-        }).get();
+    *outStream = nullptr;
+    DataReader^ reader = ref new DataReader(stream);
+    return create_task(reader->LoadAsync(stream->Size)).then([=](unsigned int count)
+    {
+        *outStream = new StorageFileReadStream(reader);
+        return true;
     }).get();
 }
 
@@ -31,14 +28,14 @@ int StorageFileReadStream::ReadBytes(unsigned char* buf, int count)
     return count;
 }
 
-StorageFileRom::StorageFileRom(StorageFile^ file)
-    : _romFile(file)
+StorageFileRom::StorageFileRom(IRandomAccessStream^ stream)
+    : _stream(stream)
 {
 }
 
 bool StorageFileRom::GetRomFileStream(IReadStream** stream)
 {
-    return StorageFileReadStream::Create(_romFile, stream);
+    return StorageFileReadStream::Create(_stream, stream);
 }
 
 bool StorageFileRom::GetSaveGameStream(IWriteStream** stream)

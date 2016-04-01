@@ -13,6 +13,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
+using Microsoft.OneDrive.Sdk;
+using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.Streams;
+using System.IO;
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace nesUWP
@@ -25,6 +31,7 @@ namespace nesUWP
         public MainPage()
         {
             this.InitializeComponent();
+            DataContext = this;
             this.Loaded += MainPage_Loaded;
         }
 
@@ -58,10 +65,13 @@ namespace nesUWP
 
             _bitmap.SetPixelBytes(_bitmapBytes);
 
+            var destRect = new Windows.Foundation.Rect(0, 0, sender.Size.Width, sender.Size.Height);
+            var srcRect = new Windows.Foundation.Rect(BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight);
+
             args.DrawingSession.DrawImage(
                 _bitmap,
-                new Rect(0, 0, sender.Size.Width, sender.Size.Height),
-                _bitmap.Bounds,
+                destRect,
+                srcRect,
                 1,
                 CanvasImageInterpolation.NearestNeighbor
                 );
@@ -93,19 +103,49 @@ namespace nesUWP
                 CanvasAlphaMode.Ignore
                 );
 
-            var file = _romFile;
-            if (file == null)
+            OneDriveClient client = null;
+
+            try
             {
-                var picker = new FileOpenPicker();
-                picker.FileTypeFilter.Add(".nes");
-                file = await picker.PickSingleFileAsync();
+                client = await OneDriveClientExtensions.GetAuthenticatedUniversalClient(new string[] { "onedrive.readonly", "wl.offline_access", "wl.signin", "onedrive.appfolder"}) as OneDriveClient;
             }
-            _nes = await Nes.Create(file);
+            catch(OneDriveException e)
+            {
+                Debug.WriteLine(e.Error.Message);
+                client.Dispose();
+                App.Current.Exit();
+            }
+
+            var romContent = await client.Drive.Root.Children["smb.nes"].Content.Request().GetAsync();
+
+            //var romContent = await client.Drive.Special.AppRoot.ItemWithPath("roms/smb.nes").Content.Request().GetAsync();
+
+            //Windows.Storage.StreamedFileDataRequestedHandler handler = new Windows.Storage.StreamedFileDataRequestedHandler(async (Windows.Storage.StreamedFileDataRequest request) =>
+            //{
+            //    byte[] buf = new byte[romContent.Length];
+            //    romContent.Read(buf, 0, (int)romContent.Length);
+            //    await request.WriteAsync(buf.AsBuffer());
+            //});
+
+            //var file = await Windows.Storage.StorageFile.CreateStreamedFileAsync("smb.nes", handler, null);
+
+
+            _bitmapBytes = new byte[256 * 240 * 4];
+
+            //var file = _romFile;
+            //if (file == null)
+            //{
+            //    var picker = new FileOpenPicker();
+            //    picker.FileTypeFilter.Add(".nes");
+            //    file = await picker.PickSingleFileAsync();
+            //}
+
+            IRandomAccessStream stream = romContent.AsRandomAccessStream();
+
+            _nes = await Nes.Create(stream);
             _controller0 = _nes.GetStandardController(0);
             Window.Current.CoreWindow.KeyDown += HandleKey;
             Window.Current.CoreWindow.KeyUp += HandleKey;
-            sender.Width = 256 * 3;
-            sender.Height = 240 * 3;
 
             _timer.Start();
         }
@@ -118,27 +158,36 @@ namespace nesUWP
                 switch (args.VirtualKey)
                 {
                     case VirtualKey.S:
+                    case VirtualKey.GamepadA:
                         _controller0.A(state);
                         break;
                     case VirtualKey.A:
+                    case VirtualKey.GamepadX:
                         _controller0.B(state);
                         break;
                     case VirtualKey.Shift:
+                    case (VirtualKey)0xde:
+                    case VirtualKey.GamepadView:
                         _controller0.Select(state);
                         break;
                     case VirtualKey.Enter:
+                    case VirtualKey.GamepadMenu:
                         _controller0.Start(state);
                         break;
                     case VirtualKey.Up:
+                    case VirtualKey.GamepadDPadUp:
                         _controller0.Up(state);
                         break;
                     case VirtualKey.Down:
+                    case VirtualKey.GamepadDPadDown:
                         _controller0.Down(state);
                         break;
                     case VirtualKey.Left:
+                    case VirtualKey.GamepadDPadLeft:
                         _controller0.Left(state);
                         break;
                     case VirtualKey.Right:
+                    case VirtualKey.GamepadDPadRight:
                         _controller0.Right(state);
                         break;
                 }
@@ -154,5 +203,44 @@ namespace nesUWP
         private int _fps = 0;
         private int _frameCount = 0;
         private Stopwatch _timer = new Stopwatch();
+
+        public int BitmapLeft { get; set; } = 8;
+        public int BitmapRight { get; set; } = 247;
+        public int BitmapTop { get; set; } = 8;
+        public int BitmapBottom { get; set; } = 231;
+
+        public int BitmapWidth
+        {
+            get
+            {
+                return BitmapRight - BitmapLeft + 1;
+            }
+        }
+
+        public int BitmapHeight
+        {
+            get
+            {
+                return BitmapBottom - BitmapTop + 1;
+            }
+        }
+
+        public int CanvasWidth
+        {
+            get
+            {
+                return BitmapWidth * CanvasScale;
+            }
+        }
+
+        public int CanvasHeight
+        {
+            get
+            {
+                return BitmapHeight * CanvasScale;
+            }
+        }
+
+        public int CanvasScale { get; set;} = 4;
     }
 }

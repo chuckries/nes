@@ -98,7 +98,7 @@ namespace NesRuntimeComponent
     {
     }
 
-    IAsyncOperation<Nes^>^ Nes::Create(StorageFile^ romFile)
+    IAsyncOperation<Nes^>^ Nes::Create(IRandomAccessStream^ romFile)
     {
         return create_async([=]() {
             NPtr<StorageFileRom> rom(new StorageFileRom(romFile));
