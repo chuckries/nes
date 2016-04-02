@@ -86,18 +86,18 @@ namespace nesUWP
         {
             OneDriveClient client = null;
 
-            try
-            {
-                client = await OneDriveClientExtensions.GetAuthenticatedUniversalClient(new string[] { "onedrive.readonly", "wl.offline_access", "wl.signin", "onedrive.appfolder"}) as OneDriveClient;
-            }
-            catch(OneDriveException e)
-            {
-                Debug.WriteLine(e.Error.Message);
-                client.Dispose();
-                App.Current.Exit();
-            }
+            //try
+            //{
+            //    client = await OneDriveClientExtensions.GetAuthenticatedUniversalClient(new string[] { "onedrive.readonly", "wl.offline_access", "wl.signin", "onedrive.appfolder"}) as OneDriveClient;
+            //}
+            //catch(OneDriveException e)
+            //{
+            //    Debug.WriteLine(e.Error.Message);
+            //    client.Dispose();
+            //    App.Current.Exit();
+            //}
 
-            var romContent = await client.Drive.Root.Children["smb.nes"].Content.Request().GetAsync();
+            // var romContent = await client.Drive.Root.Children["smb.nes"].Content.Request().GetAsync();
 
             //var romContent = await client.Drive.Special.AppRoot.ItemWithPath("roms/smb.nes").Content.Request().GetAsync();
 
@@ -121,9 +121,12 @@ namespace nesUWP
             //    file = await picker.PickSingleFileAsync();
             //}
 
-            IRandomAccessStream stream = romContent.AsRandomAccessStream();
+            //IRandomAccessStream stream = romContent.AsRandomAccessStream();
 
-            _nes = await Nes.Create(stream);
+            var inMemoryStream = new InMemoryRandomAccessStream();
+            await inMemoryStream.WriteAsync(new byte[0x100].AsBuffer());
+
+            _nes = await Nes.Create(inMemoryStream);
             _controller0 = _nes.GetStandardController(0);
             Window.Current.CoreWindow.KeyDown += HandleKey;
             Window.Current.CoreWindow.KeyUp += HandleKey;
