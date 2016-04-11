@@ -101,8 +101,10 @@ namespace NesRuntimeComponent
     IAsyncOperation<Nes^>^ Nes::Create(StorageFile^ romFile)
     {
         return create_async([=]() {
-            NPtr<StorageFileRom> rom(new StorageFileRom(romFile));
-            NPtr<XA2AudioProvider> audioProvider(new XA2AudioProvider(44100));
+            NPtr<StorageFileRom> rom;
+            rom.Attach(new StorageFileRom(romFile));
+            NPtr<XA2AudioProvider> audioProvider;
+            audioProvider.Attach(new XA2AudioProvider(44100));
             NPtr<::Nes> nes;
             ::Nes::Create(static_cast<IRomFile*>(rom), static_cast<IAudioProvider*>(audioProvider), &nes);
             return ref new Nes(nes);

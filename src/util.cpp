@@ -1,55 +1,55 @@
 #include "stdafx.h"
 #include "util.h"
 
-void Util::WriteBytes(bool val, std::ofstream& ofs)
+void Util::WriteBytes(bool val, IWriteStream* ostream)
 {
     u8 buf = val ? 0x01 : 0x00;
-    ofs.write((char*)&buf, sizeof(buf));
+    ostream->WriteBytes((u8*)&buf, sizeof(buf));
 }
 
-void Util::WriteBytes(u8 val, std::ofstream& ofs)
+void Util::WriteBytes(u8 val, IWriteStream* ostream)
 {
-    ofs.write((char*)&val, sizeof(val));
+    ostream->WriteBytes((u8*)&val, sizeof(val));
 }
 
-void Util::WriteBytes(u16 val, std::ofstream& ofs)
+void Util::WriteBytes(u16 val, IWriteStream* ostream)
 {
-    ofs.write((char*)&val, sizeof(val));
+    ostream->WriteBytes((u8*)&val, sizeof(val));
 }
 
-void Util::WriteBytes(u32 val, std::ofstream& ofs)
+void Util::WriteBytes(u32 val, IWriteStream* ostream)
 {
-    ofs.write((char*)&val, sizeof(val));
+    ostream->WriteBytes((u8*)&val, sizeof(val));
 }
 
-void Util::WriteBytes(i32 val, std::ofstream& ofs)
+void Util::WriteBytes(i32 val, IWriteStream* ostream)
 {
-    ofs.write((char*)&val, sizeof(val));
+    ostream->WriteBytes((u8*)&val, sizeof(val));
 }
 
-void Util::ReadBytes(bool& val, std::ifstream& ifs)
+void Util::ReadBytes(bool& val, IReadStream* istream)
 {
     u8 buf;
-    ifs.read((char*)&buf, sizeof(buf));
+    istream->ReadBytes((u8*)&buf, sizeof(buf));
     val = buf != 0 ? true : false;
 }
 
-void Util::ReadBytes(u8& val, std::ifstream& ifs)
+void Util::ReadBytes(u8& val, IReadStream* istream)
 {
-    ifs.read((char*)&val, sizeof(val));
+    istream->ReadBytes((u8*)&val, sizeof(val));
 }
 
-void Util::ReadBytes(u16& val, std::ifstream& ifs)
+void Util::ReadBytes(u16& val, IReadStream* istream)
 {
-    ifs.read((char*)&val, sizeof(val));
+    istream->ReadBytes((u8*)&val, sizeof(val));
 }
 
-void Util::ReadBytes(u32& val, std::ifstream& ifs)
+void Util::ReadBytes(u32& val, IReadStream* istream)
 {
-    ifs.read((char*)&val, sizeof(val));
+    istream->ReadBytes((u8*)&val, sizeof(val));
 }
 
-void Util::ReadBytes(i32& val, std::ifstream& ifs)
+void Util::ReadBytes(i32& val, IReadStream* istream)
 {
-    ifs.read((char*)&val, sizeof(val));
+    istream->ReadBytes((u8*)&val, sizeof(val));
 }

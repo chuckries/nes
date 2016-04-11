@@ -64,32 +64,32 @@ struct ApuPulseState
     int dutyCycleSetting;
     int phaseResetSetting;
 
-    void SaveState(std::ofstream& ofs)
+    void SaveState(IWriteStream* ostream)
     {
-        Util::WriteBytes(lengthCounter, ofs);
-        Util::WriteBytes(wavelength, ofs);
-        Util::WriteBytes(sweepPeriod, ofs);
-        Util::WriteBytes(sweepCounter, ofs);
-        Util::WriteBytes(shiftAmount, ofs);
-        Util::WriteBytes(lengthDisabled, ofs);
-        Util::WriteBytes(sweepEnabled, ofs);
-        Util::WriteBytes(sweepReset, ofs);
-        Util::WriteBytes(negate, ofs);
-        Util::WriteBytes(volume, ofs);
+        Util::WriteBytes(lengthCounter, ostream);
+        Util::WriteBytes(wavelength, ostream);
+        Util::WriteBytes(sweepPeriod, ostream);
+        Util::WriteBytes(sweepCounter, ostream);
+        Util::WriteBytes(shiftAmount, ostream);
+        Util::WriteBytes(lengthDisabled, ostream);
+        Util::WriteBytes(sweepEnabled, ostream);
+        Util::WriteBytes(sweepReset, ostream);
+        Util::WriteBytes(negate, ostream);
+        Util::WriteBytes(volume, ostream);
     }
 
-    void LoadState(std::ifstream& ifs)
+    void LoadState(IReadStream* istream)
     {
-        Util::ReadBytes(lengthCounter, ifs);
-        Util::ReadBytes(wavelength, ifs);
-        Util::ReadBytes(sweepPeriod, ifs);
-        Util::ReadBytes(sweepCounter, ifs);
-        Util::ReadBytes(shiftAmount, ifs);
-        Util::ReadBytes(lengthDisabled, ifs);
-        Util::ReadBytes(sweepEnabled, ifs);
-        Util::ReadBytes(sweepReset, ifs);
-        Util::ReadBytes(negate, ifs);
-        Util::ReadBytes(volume, ifs);
+        Util::ReadBytes(lengthCounter, istream);
+        Util::ReadBytes(wavelength, istream);
+        Util::ReadBytes(sweepPeriod, istream);
+        Util::ReadBytes(sweepCounter, istream);
+        Util::ReadBytes(shiftAmount, istream);
+        Util::ReadBytes(lengthDisabled, istream);
+        Util::ReadBytes(sweepEnabled, istream);
+        Util::ReadBytes(sweepReset, istream);
+        Util::ReadBytes(negate, istream);
+        Util::ReadBytes(volume, istream);
     }
 };
 
@@ -103,26 +103,26 @@ struct ApuTriangleState
     bool haltCounter;
     bool reloadCounter;
 
-    void SaveState(std::ofstream& ofs)
+    void SaveState(IWriteStream* ostream)
     {
-        Util::WriteBytes(lengthCounter, ofs);
-        Util::WriteBytes(linearCounter, ofs);
-        Util::WriteBytes(wavelength, ofs);
-        Util::WriteBytes(counterReloadValue, ofs);
-        Util::WriteBytes(lengthDisabled, ofs);
-        Util::WriteBytes(haltCounter, ofs);
-        Util::WriteBytes(reloadCounter, ofs);
+        Util::WriteBytes(lengthCounter, ostream);
+        Util::WriteBytes(linearCounter, ostream);
+        Util::WriteBytes(wavelength, ostream);
+        Util::WriteBytes(counterReloadValue, ostream);
+        Util::WriteBytes(lengthDisabled, ostream);
+        Util::WriteBytes(haltCounter, ostream);
+        Util::WriteBytes(reloadCounter, ostream);
     }
 
-    void LoadState(std::ifstream& ifs)
+    void LoadState(IReadStream* istream)
     {
-        Util::ReadBytes(lengthCounter, ifs);
-        Util::ReadBytes(linearCounter, ifs);
-        Util::ReadBytes(wavelength, ifs);
-        Util::ReadBytes(counterReloadValue, ifs);
-        Util::ReadBytes(lengthDisabled, ifs);
-        Util::ReadBytes(haltCounter, ifs);
-        Util::ReadBytes(reloadCounter, ifs);
+        Util::ReadBytes(lengthCounter, istream);
+        Util::ReadBytes(linearCounter, istream);
+        Util::ReadBytes(wavelength, istream);
+        Util::ReadBytes(counterReloadValue, istream);
+        Util::ReadBytes(lengthDisabled, istream);
+        Util::ReadBytes(haltCounter, istream);
+        Util::ReadBytes(reloadCounter, istream);
     }
 };
 
@@ -137,20 +137,20 @@ struct ApuNoiseState
     u32 lastPeriod;
     u32 lastVolume;
 
-    void SaveState(std::ofstream& ofs)
+    void SaveState(IWriteStream* ostream)
     {
-        Util::WriteBytes(lengthCounter, ofs);
-        Util::WriteBytes(lengthDisabled, ofs);
-        Util::WriteBytes(period, ofs);
-        Util::WriteBytes(volume, ofs);
+        Util::WriteBytes(lengthCounter, ostream);
+        Util::WriteBytes(lengthDisabled, ostream);
+        Util::WriteBytes(period, ostream);
+        Util::WriteBytes(volume, ostream);
     }
 
-    void LoadState(std::ifstream& ifs)
+    void LoadState(IReadStream* istream)
     {
-        Util::ReadBytes(lengthCounter, ifs);
-        Util::ReadBytes(lengthDisabled, ifs);
-        Util::ReadBytes(period, ifs);
-        Util::ReadBytes(volume, ifs);
+        Util::ReadBytes(lengthCounter, istream);
+        Util::ReadBytes(lengthDisabled, istream);
+        Util::ReadBytes(period, istream);
+        Util::ReadBytes(volume, istream);
     }
 };
 
@@ -172,42 +172,42 @@ struct ApuDmcState
     u8 shiftRegister;
     u8 outputLevel;
 
-    void SaveState(std::ofstream& ofs)
+    void SaveState(IWriteStream* ostream)
     {
-        Util::WriteBytes(enabled, ofs);
-        Util::WriteBytes(interrupt, ofs);
-        Util::WriteBytes(interruptEnabled, ofs);
-        Util::WriteBytes(loop, ofs);
-        Util::WriteBytes(bufferEmpty, ofs);
-        Util::WriteBytes(sampleAddress, ofs);
-        Util::WriteBytes(readAddress, ofs);
-        Util::WriteBytes(sampleSize, ofs);
-        Util::WriteBytes(bytesRemaining, ofs);
-        Util::WriteBytes(bitsRemaining, ofs);
-        Util::WriteBytes(cycleCount, ofs);
-        Util::WriteBytes(sampleRate, ofs);
-        Util::WriteBytes(sampleBuffer, ofs);
-        Util::WriteBytes(shiftRegister, ofs);
-        Util::WriteBytes(outputLevel, ofs);
+        Util::WriteBytes(enabled, ostream);
+        Util::WriteBytes(interrupt, ostream);
+        Util::WriteBytes(interruptEnabled, ostream);
+        Util::WriteBytes(loop, ostream);
+        Util::WriteBytes(bufferEmpty, ostream);
+        Util::WriteBytes(sampleAddress, ostream);
+        Util::WriteBytes(readAddress, ostream);
+        Util::WriteBytes(sampleSize, ostream);
+        Util::WriteBytes(bytesRemaining, ostream);
+        Util::WriteBytes(bitsRemaining, ostream);
+        Util::WriteBytes(cycleCount, ostream);
+        Util::WriteBytes(sampleRate, ostream);
+        Util::WriteBytes(sampleBuffer, ostream);
+        Util::WriteBytes(shiftRegister, ostream);
+        Util::WriteBytes(outputLevel, ostream);
     }
 
-    void LoadState(std::ifstream& ifs)
+    void LoadState(IReadStream* istream)
     {
-        Util::ReadBytes(enabled, ifs);
-        Util::ReadBytes(interrupt, ifs);
-        Util::ReadBytes(interruptEnabled, ifs);
-        Util::ReadBytes(loop, ifs);
-        Util::ReadBytes(bufferEmpty, ifs);
-        Util::ReadBytes(sampleAddress, ifs);
-        Util::ReadBytes(readAddress, ifs);
-        Util::ReadBytes(sampleSize, ifs);
-        Util::ReadBytes(bytesRemaining, ifs);
-        Util::ReadBytes(bitsRemaining, ifs);
-        Util::ReadBytes(cycleCount, ifs);
-        Util::ReadBytes(sampleRate, ifs);
-        Util::ReadBytes(sampleBuffer, ifs);
-        Util::ReadBytes(shiftRegister, ifs);
-        Util::ReadBytes(outputLevel, ifs);
+        Util::ReadBytes(enabled, istream);
+        Util::ReadBytes(interrupt, istream);
+        Util::ReadBytes(interruptEnabled, istream);
+        Util::ReadBytes(loop, istream);
+        Util::ReadBytes(bufferEmpty, istream);
+        Util::ReadBytes(sampleAddress, istream);
+        Util::ReadBytes(readAddress, istream);
+        Util::ReadBytes(sampleSize, istream);
+        Util::ReadBytes(bytesRemaining, istream);
+        Util::ReadBytes(bitsRemaining, istream);
+        Util::ReadBytes(cycleCount, istream);
+        Util::ReadBytes(sampleRate, istream);
+        Util::ReadBytes(sampleBuffer, istream);
+        Util::ReadBytes(shiftRegister, istream);
+        Util::ReadBytes(outputLevel, istream);
     }
 };
 
@@ -221,26 +221,26 @@ struct ApuEnvelop
     bool haltCounter;
     bool constantVolume;
 
-    void SaveState(std::ofstream& ofs)
+    void SaveState(IWriteStream* ostream)
     {
-        Util::WriteBytes(envelopDivider, ofs);
-        Util::WriteBytes(dividerCounter, ofs);
-        Util::WriteBytes(setVolume, ofs);
-        Util::WriteBytes(envelopVolume, ofs);
-        Util::WriteBytes(start, ofs);
-        Util::WriteBytes(haltCounter, ofs);
-        Util::WriteBytes(constantVolume, ofs);
+        Util::WriteBytes(envelopDivider, ostream);
+        Util::WriteBytes(dividerCounter, ostream);
+        Util::WriteBytes(setVolume, ostream);
+        Util::WriteBytes(envelopVolume, ostream);
+        Util::WriteBytes(start, ostream);
+        Util::WriteBytes(haltCounter, ostream);
+        Util::WriteBytes(constantVolume, ostream);
     }
 
-    void LoadState(std::ifstream& ifs)
+    void LoadState(IReadStream* istream)
     {
-        Util::ReadBytes(envelopDivider, ifs);
-        Util::ReadBytes(dividerCounter, ifs);
-        Util::ReadBytes(setVolume, ifs);
-        Util::ReadBytes(envelopVolume, ifs);
-        Util::ReadBytes(start, ifs);
-        Util::ReadBytes(haltCounter, ifs);
-        Util::ReadBytes(constantVolume, ifs);
+        Util::ReadBytes(envelopDivider, istream);
+        Util::ReadBytes(dividerCounter, istream);
+        Util::ReadBytes(setVolume, istream);
+        Util::ReadBytes(envelopVolume, istream);
+        Util::ReadBytes(start, istream);
+        Util::ReadBytes(haltCounter, istream);
+        Util::ReadBytes(constantVolume, istream);
     }
 };
 
@@ -442,46 +442,46 @@ void Apu::Step(bool isDmaRunning, ApuStepResult& result, u32 &stealCycleCount)
         _nextSubframeTimer--;
 }
 
-void Apu::SaveState(std::ofstream& ofs)
+void Apu::SaveState(IWriteStream* ostream)
 {
     PauseAudio();
 
-    Util::WriteBytes(_frameCounterMode1, ofs);
-    Util::WriteBytes(_frameInterrupt, ofs);
-    Util::WriteBytes(_frameInterruptInhibit, ofs);
-    Util::WriteBytes(_frameCycleCount, ofs);
-    Util::WriteBytes(_subframeCount, ofs);
-    Util::WriteBytes(_nextSubframeTimer, ofs);
-    Util::WriteBytes(_lastTriangleFreq, ofs);
+    Util::WriteBytes(_frameCounterMode1, ostream);
+    Util::WriteBytes(_frameInterrupt, ostream);
+    Util::WriteBytes(_frameInterruptInhibit, ostream);
+    Util::WriteBytes(_frameCycleCount, ostream);
+    Util::WriteBytes(_subframeCount, ostream);
+    Util::WriteBytes(_nextSubframeTimer, ostream);
+    Util::WriteBytes(_lastTriangleFreq, ostream);
 
-    _pulseState1->SaveState(ofs);
-    _pulseState2->SaveState(ofs);
-    _triangleState->SaveState(ofs);
-    _dmcState->SaveState(ofs);
-    _pulseEnvelop1->SaveState(ofs);
-    _pulseEnvelop2->SaveState(ofs);
+    _pulseState1->SaveState(ostream);
+    _pulseState2->SaveState(ostream);
+    _triangleState->SaveState(ostream);
+    _dmcState->SaveState(ostream);
+    _pulseEnvelop1->SaveState(ostream);
+    _pulseEnvelop2->SaveState(ostream);
 
     UnpauseAudio();
 }
 
-void Apu::LoadState(std::ifstream& ifs)
+void Apu::LoadState(IReadStream* istream)
 {
     PauseAudio();
 
-    Util::ReadBytes(_frameCounterMode1, ifs);
-    Util::ReadBytes(_frameInterrupt, ifs);
-    Util::ReadBytes(_frameInterruptInhibit, ifs);
-    Util::ReadBytes(_frameCycleCount, ifs);
-    Util::ReadBytes(_subframeCount, ifs);
-    Util::ReadBytes(_nextSubframeTimer, ifs);
-    Util::ReadBytes(_lastTriangleFreq, ifs);
+    Util::ReadBytes(_frameCounterMode1, istream);
+    Util::ReadBytes(_frameInterrupt, istream);
+    Util::ReadBytes(_frameInterruptInhibit, istream);
+    Util::ReadBytes(_frameCycleCount, istream);
+    Util::ReadBytes(_subframeCount, istream);
+    Util::ReadBytes(_nextSubframeTimer, istream);
+    Util::ReadBytes(_lastTriangleFreq, istream);
 
-    _pulseState1->LoadState(ifs);
-    _pulseState2->LoadState(ifs);
-    _triangleState->LoadState(ifs);
-    _dmcState->LoadState(ifs);
-    _pulseEnvelop1->LoadState(ifs);
-    _pulseEnvelop2->LoadState(ifs);
+    _pulseState1->LoadState(istream);
+    _pulseState2->LoadState(istream);
+    _triangleState->LoadState(istream);
+    _dmcState->LoadState(istream);
+    _pulseEnvelop1->LoadState(istream);
+    _pulseEnvelop2->LoadState(istream);
 
     // Force frame reset and Send loaded settings to audio engine
     QueueAudioEvent(NESAUDIO_FRAME_RESET, 0);

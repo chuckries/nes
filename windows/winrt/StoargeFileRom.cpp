@@ -25,10 +25,9 @@ bool StorageFileReadStream::Create(StorageFile^ file, IReadStream** stream)
     }).get();
 }
 
-int StorageFileReadStream::ReadBytes(unsigned char* buf, int count)
+void StorageFileReadStream::ReadBytes(unsigned char* buf, long long count)
 {
     _dataReader->ReadBytes(ArrayReference<unsigned char>(buf, count));
-    return count;
 }
 
 StorageFileRom::StorageFileRom(StorageFile^ file)

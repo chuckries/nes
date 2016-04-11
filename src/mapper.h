@@ -19,8 +19,8 @@ public:
 
 public:
     // ISaveState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 
 private:
     u8* _chrBuf;
@@ -44,8 +44,8 @@ public:
 
 public:
     // ISaveState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 
 private:
     u32 ChrBufAddress(u16 addr);
@@ -85,8 +85,8 @@ public:
     u8 prg_loadb(u16 addr);
 
     // ISaveState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 private:
     int _lastBankOffset;
     u8 _prgBank;
@@ -101,8 +101,8 @@ public:
     u8 chr_loadb(u16 addr);
 
     // ISaveState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 private:
     u8 _chrBank;
 };

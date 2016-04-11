@@ -20,8 +20,9 @@ public:
     u8 loadb(u16 addr);
     void storeb(u16 addr, u8 val);
 
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
+
 private:
     u8 _ram[0x800];
     NPtr<Ppu> _ppu;

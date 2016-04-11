@@ -4,8 +4,8 @@
 
 struct ISaveState : public IBaseInterface
 {
-    virtual void SaveState(std::ofstream& ofs) = 0;
-    virtual void LoadState(std::ifstream& ifs) = 0;
+    virtual void SaveState(IWriteStream* ostream) = 0;
+    virtual void LoadState(IReadStream* istream) = 0;
 };
 
 // Standard Memory Interace
@@ -16,8 +16,8 @@ public:
     virtual void storeb(u16 addr, u8 val) = 0;
 
     // default ISaveState
-    virtual void SaveState(std::ofstream& ofs) { }
-    virtual void LoadState(std::ifstream& ifs) { }
+    virtual void SaveState(IWriteStream* ostream) { }
+    virtual void LoadState(IReadStream* istream) { }
 
     u16 loadw(u16 addr)
     {
@@ -66,8 +66,8 @@ public:
     virtual bool Scanline();
 
 public:
-    virtual void SaveState(std::ofstream& ofs);
-    virtual void LoadState(std::ifstream& ifs);
+    virtual void SaveState(IWriteStream* ostream);
+    virtual void LoadState(IReadStream* istream);
 
 public:
     NameTableMirroring Mirroring;

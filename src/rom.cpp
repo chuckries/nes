@@ -22,7 +22,8 @@ Rom::~Rom()
 
 bool Rom::Create(IRomFile* romFile, Rom** rom)
 {
-    NPtr<Rom> newRom(new Rom(romFile));
+    NPtr<Rom> newRom;
+    newRom.Attach(new Rom(romFile));
     if (newRom->Load())
     {
         *rom = newRom.Detach();
@@ -89,14 +90,14 @@ bool Rom::Load()
     }
 }
 
-void Rom::SaveState(std::ofstream& ofs)
+void Rom::SaveState(IWriteStream* ostream)
 {
-    ofs.write((char*)&PrgRam[0], PrgRam.size());
+    ostream->WriteBytes((u8*)&PrgRam[0], PrgRam.size());
 }
 
-void Rom::LoadState(std::ifstream& ifs)
+void Rom::LoadState(IReadStream* istream)
 {
-    ifs.read((char*)&PrgRam[0], PrgRam.size());
+    istream->ReadBytes((u8*)&PrgRam[0], PrgRam.size());
 }
 
 void Rom::SaveGame()

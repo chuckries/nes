@@ -19,7 +19,6 @@ public:
 public:
     DELEGATE_NESOBJECT_REFCOUNTING();
 
-    static bool Create(const char* romPath, IAudioProvider* audioProvider, Nes** nes);
     static bool Create(IRomFile* rom, IAudioProvider* audioProvider, Nes** nes);
 
     virtual void Dispose();
@@ -36,8 +35,8 @@ public:
     // it will be disconnected and it's memory will be freed.
     IStandardController* GetStandardController(unsigned int port);
 
-    void SaveState();
-    void LoadState();
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 
 private:
     //std::unique_ptr<fs::path> GetSavePath();

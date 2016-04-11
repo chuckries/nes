@@ -14,7 +14,7 @@ public:
     DELEGATE_NESOBJECT_REFCOUNTING();
 
 public:
-    int ReadBytes(unsigned char* buf, int count);
+    void ReadBytes(unsigned char* buf, long long count);
 
 private:
     Windows::Storage::Streams::DataReader^ _dataReader;

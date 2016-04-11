@@ -16,5 +16,5 @@
 
 extern "C"
 {
-    NES_API bool Nes_Create(const char* romPath, IAudioProvider* audioProvider, INes** ines);
+    NES_API bool Nes_Create(IRomFile* romFile, IAudioProvider* audioProvider, INes** ines);
 }

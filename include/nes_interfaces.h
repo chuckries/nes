@@ -21,7 +21,7 @@ struct IReadStream : public IBaseInterface
     // buf: the buffer that bytes will be read into
     // count: the maximum number of bytes to read
     // returns: the total number of bytes read
-    virtual int ReadBytes(unsigned char* buf, int count) = 0;
+    virtual void ReadBytes(unsigned char* buf, long long count) = 0;
 };
 
 struct IWriteStream : public IBaseInterface
@@ -31,7 +31,7 @@ struct IWriteStream : public IBaseInterface
     // buf: the buffer containing bytse to be written
     // count: the maximum number of bytes to write
     // returns: the total number of bytes written
-    virtual int WriteBytes(unsigned char* buf, int count) = 0;
+    virtual void WriteBytes(unsigned char* buf, long long count) = 0;
 };
 
 struct IRomFile : public IBaseInterface
@@ -47,8 +47,8 @@ struct INes : public IBaseInterface
 
     virtual void DoFrame(unsigned char screen[]) = 0;
     virtual IStandardController* GetStandardController(unsigned int port) = 0;
-    virtual void SaveState() = 0;
-    virtual void LoadState() = 0;
+    virtual void SaveState(IWriteStream* ostream) = 0;
+    virtual void LoadState(IReadStream* istream) = 0;
 };
 
 // Audio interface (implemented by host)

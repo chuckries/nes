@@ -41,16 +41,16 @@ bool IMapper::Scanline()
     return false;
 }
 
-void IMapper::SaveState(std::ofstream& ofs)
+void IMapper::SaveState(IWriteStream* ostream)
 {
-    Util::WriteBytes((u8)Mirroring, ofs);
-    _rom->SaveState(ofs);
+    Util::WriteBytes((u8)Mirroring, ostream);
+    _rom->SaveState(ostream);
 }
 
-void IMapper::LoadState(std::ifstream& ifs)
+void IMapper::LoadState(IReadStream* istream)
 {
-    Util::ReadBytes((u8&)Mirroring, ifs);
-    _rom->LoadState(ifs);
+    Util::ReadBytes((u8&)Mirroring, istream);
+    _rom->LoadState(istream);
 }
 
 /// NRom
@@ -109,16 +109,16 @@ void NRom::chr_storeb(u16 addr, u8 val)
     _chrRam[addr] = val; // This will only ever store to ChrRam
 }
 
-void NRom::SaveState(std::ofstream& ofs)
+void NRom::SaveState(IWriteStream* ostream)
 {
-    IMapper::SaveState(ofs);
-    ofs.write((char*)_chrRam, sizeof(_chrRam));
+    IMapper::SaveState(ostream);
+    ostream->WriteBytes((u8*)_chrRam, sizeof(_chrRam));
 }
 
-void NRom::LoadState(std::ifstream& ifs)
+void NRom::LoadState(IReadStream* istream)
 {
-    IMapper::LoadState(ifs);
-    ifs.read((char*)_chrRam, sizeof(_chrRam));
+    IMapper::LoadState(istream);
+    istream->ReadBytes((u8*)_chrRam, sizeof(_chrRam));
 }
 
 /// SxRom (Mapper #1)
@@ -276,32 +276,32 @@ u32 SxRom::ChrBufAddress(u16 addr)
     }
 }
 
-void SxRom::SaveState(std::ofstream& ofs)
+void SxRom::SaveState(IWriteStream* ostream)
 {
-    IMapper::SaveState(ofs);
-    Util::WriteBytes((u8)_prgSize, ofs);
-    Util::WriteBytes((u8)_chrMode, ofs);
-    Util::WriteBytes(_slotSelect, ofs);
-    Util::WriteBytes(_chrBank0, ofs);
-    Util::WriteBytes(_chrBank1, ofs);
-    Util::WriteBytes(_prgBank, ofs);
-    Util::WriteBytes(_accumulator, ofs);
-    Util::WriteBytes(_writeCount, ofs);
-    ofs.write((char*)&_chrRam[0], _chrRam.size());
+    IMapper::SaveState(ostream);
+    Util::WriteBytes((u8)_prgSize, ostream);
+    Util::WriteBytes((u8)_chrMode, ostream);
+    Util::WriteBytes(_slotSelect, ostream);
+    Util::WriteBytes(_chrBank0, ostream);
+    Util::WriteBytes(_chrBank1, ostream);
+    Util::WriteBytes(_prgBank, ostream);
+    Util::WriteBytes(_accumulator, ostream);
+    Util::WriteBytes(_writeCount, ostream);
+    ostream->WriteBytes((u8*)&_chrRam[0], _chrRam.size());
 }
 
-void SxRom::LoadState(std::ifstream& ifs)
+void SxRom::LoadState(IReadStream* istream)
 {
-    IMapper::LoadState(ifs);
-    Util::ReadBytes((u8&)_prgSize, ifs);
-    Util::ReadBytes((u8&)_chrMode, ifs);
-    Util::ReadBytes(_slotSelect, ifs);
-    Util::ReadBytes(_chrBank0, ifs);
-    Util::ReadBytes(_chrBank1, ifs);
-    Util::ReadBytes(_prgBank, ifs);
-    Util::ReadBytes(_accumulator, ifs);
-    Util::ReadBytes(_writeCount, ifs);
-    ifs.read((char*)&_chrRam[0], _chrRam.size());
+    IMapper::LoadState(istream);
+    Util::ReadBytes((u8&)_prgSize, istream);
+    Util::ReadBytes((u8&)_chrMode, istream);
+    Util::ReadBytes(_slotSelect, istream);
+    Util::ReadBytes(_chrBank0, istream);
+    Util::ReadBytes(_chrBank1, istream);
+    Util::ReadBytes(_prgBank, istream);
+    Util::ReadBytes(_accumulator, istream);
+    Util::ReadBytes(_writeCount, istream);
+    istream->ReadBytes((u8*)&_chrRam[0], _chrRam.size());
 }
 
 /// UxRom (Mapper #2)
@@ -313,16 +313,16 @@ UxRom::UxRom(Rom* rom)
     _lastBankOffset = (_rom->Header.PrgRomSize - 1) * PRG_ROM_BANK_SIZE;
 }
 
-void UxRom::SaveState(std::ofstream& ofs)
+void UxRom::SaveState(IWriteStream* ostream)
 {
-    NRom::SaveState(ofs);
-    Util::WriteBytes(_prgBank, ofs);
+    NRom::SaveState(ostream);
+    Util::WriteBytes(_prgBank, ostream);
 }
 
-void UxRom::LoadState(std::ifstream& ifs)
+void UxRom::LoadState(IReadStream* istream)
 {
-    NRom::LoadState(ifs);
-    Util::ReadBytes(_prgBank, ifs);
+    NRom::LoadState(istream);
+    Util::ReadBytes(_prgBank, istream);
 }
 
 void UxRom::prg_storeb(u16 addr, u8 val)
@@ -365,16 +365,16 @@ u8 CNRom::chr_loadb(u16 addr)
 {
     return _rom->ChrRom[(_chrBank * CHR_ROM_BANK_SIZE) + addr];
 }
-void CNRom::SaveState(std::ofstream& ofs)
+void CNRom::SaveState(IWriteStream* ostream)
 {
-    NRom::SaveState(ofs);
-    Util::WriteBytes(_chrBank, ofs);
+    NRom::SaveState(ostream);
+    Util::WriteBytes(_chrBank, ostream);
 }
 
-void CNRom::LoadState(std::ifstream& ifs)
+void CNRom::LoadState(IReadStream* istream)
 {
-    NRom::LoadState(ifs);
-    Util::ReadBytes(_chrBank, ifs);
+    NRom::LoadState(istream);
+    Util::ReadBytes(_chrBank, istream);
 }
 
 // TXRom (MMC3, mapper #4)

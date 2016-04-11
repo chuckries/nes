@@ -11,7 +11,6 @@
 
 // std C++ includes
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -20,10 +19,6 @@
 #include <chrono>
 #include <atomic>
 #include <mutex>
-
-// for Rom and save state paths
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
 
 #include "../include/nptr.h"
 #include "../include/object.h"

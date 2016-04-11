@@ -135,8 +135,8 @@ public:
     void storeb(u16 addr, u8 val);
 
     // ISaveState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 
     void Reset();
     void Step();

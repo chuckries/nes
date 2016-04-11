@@ -103,70 +103,70 @@ void Ppu::storeb(u16 addr, u8 val)
     }
 }
 
-void Ppu::SaveState(std::ofstream& ofs)
+void Ppu::SaveState(IWriteStream* ostream)
 {
     // don't need to save screen because we save and load state in VBlank
-    _vram.SaveState(ofs);
-    _oam.SaveState(ofs);
-    Util::WriteBytes(_oamAddr, ofs);
+    _vram.SaveState(ostream);
+    _oam.SaveState(ostream);
+    Util::WriteBytes(_oamAddr, ostream);
 
     // don't need to save line sprites or sprite zero on line because we save and load in VBlank
 
-    Util::WriteBytes(_ppuStatus.val, ofs);
-    Util::WriteBytes(_ppuDataBuffer, ofs);
+    Util::WriteBytes(_ppuStatus.val, ostream);
+    Util::WriteBytes(_ppuDataBuffer, ostream);
 
-    Util::WriteBytes(_vramAddrIncrement, ofs);
-    Util::WriteBytes(_spriteBaseAddress, ofs);
-    Util::WriteBytes(_backgroundBaseAddress, ofs);
-    Util::WriteBytes((u8)_spriteSize, ofs);
-    Util::WriteBytes(_doVBlankNmi, ofs);
+    Util::WriteBytes(_vramAddrIncrement, ostream);
+    Util::WriteBytes(_spriteBaseAddress, ostream);
+    Util::WriteBytes(_backgroundBaseAddress, ostream);
+    Util::WriteBytes((u8)_spriteSize, ostream);
+    Util::WriteBytes(_doVBlankNmi, ostream);
 
-    Util::WriteBytes(_clipBackground, ofs);
-    Util::WriteBytes(_clipSprites, ofs);
-    Util::WriteBytes(_showBackground, ofs);
-    Util::WriteBytes(_showSprites, ofs);
+    Util::WriteBytes(_clipBackground, ostream);
+    Util::WriteBytes(_clipSprites, ostream);
+    Util::WriteBytes(_showBackground, ostream);
+    Util::WriteBytes(_showSprites, ostream);
 
-    Util::WriteBytes(_v, ofs);
-    Util::WriteBytes(_t, ofs);
-    Util::WriteBytes(_x, ofs);
-    Util::WriteBytes(_w, ofs);
+    Util::WriteBytes(_v, ostream);
+    Util::WriteBytes(_t, ostream);
+    Util::WriteBytes(_x, ostream);
+    Util::WriteBytes(_w, ostream);
 
-    Util::WriteBytes(_cycle, ofs);
-    Util::WriteBytes(_scanline, ofs);
-    Util::WriteBytes(_frameOdd, ofs);
+    Util::WriteBytes(_cycle, ostream);
+    Util::WriteBytes(_scanline, ostream);
+    Util::WriteBytes(_frameOdd, ostream);
 }
 
-void Ppu::LoadState(std::ifstream& ifs)
+void Ppu::LoadState(IReadStream* istream)
 {
     // don't need to load screen because we save and load state in VBlank
-    _vram.LoadState(ifs);
-    _oam.LoadState(ifs);
-    Util::ReadBytes(_oamAddr, ifs);
+    _vram.LoadState(istream);
+    _oam.LoadState(istream);
+    Util::ReadBytes(_oamAddr, istream);
 
     // don't need to save line sprites or sprite zero on line because we save and load in VBlank
 
-    Util::ReadBytes(_ppuStatus.val, ifs);
-    Util::ReadBytes(_ppuDataBuffer, ifs);
+    Util::ReadBytes(_ppuStatus.val, istream);
+    Util::ReadBytes(_ppuDataBuffer, istream);
 
-    Util::ReadBytes(_vramAddrIncrement, ifs);
-    Util::ReadBytes(_spriteBaseAddress, ifs);
-    Util::ReadBytes(_backgroundBaseAddress, ifs);
-    Util::ReadBytes((u8&)_spriteSize, ifs);
-    Util::ReadBytes(_doVBlankNmi, ifs);
+    Util::ReadBytes(_vramAddrIncrement, istream);
+    Util::ReadBytes(_spriteBaseAddress, istream);
+    Util::ReadBytes(_backgroundBaseAddress, istream);
+    Util::ReadBytes((u8&)_spriteSize, istream);
+    Util::ReadBytes(_doVBlankNmi, istream);
 
-    Util::ReadBytes(_clipBackground, ifs);
-    Util::ReadBytes(_clipSprites, ifs);
-    Util::ReadBytes(_showBackground, ifs);
-    Util::ReadBytes(_showSprites, ifs);
+    Util::ReadBytes(_clipBackground, istream);
+    Util::ReadBytes(_clipSprites, istream);
+    Util::ReadBytes(_showBackground, istream);
+    Util::ReadBytes(_showSprites, istream);
 
-    Util::ReadBytes(_v, ifs);
-    Util::ReadBytes(_t, ifs);
-    Util::ReadBytes(_x, ifs);
-    Util::ReadBytes(_w, ifs);
+    Util::ReadBytes(_v, istream);
+    Util::ReadBytes(_t, istream);
+    Util::ReadBytes(_x, istream);
+    Util::ReadBytes(_w, istream);
 
-    Util::ReadBytes(_cycle, ifs);
-    Util::ReadBytes(_scanline, ifs);
-    Util::ReadBytes(_frameOdd, ifs);
+    Util::ReadBytes(_cycle, istream);
+    Util::ReadBytes(_scanline, istream);
+    Util::ReadBytes(_frameOdd, istream);
 }
 
 // PPUSTATUS
@@ -846,20 +846,22 @@ u16 VRam::NameTableAddress(u16 addr)
         return addr & 0x3ff;
     case NameTableMirroring::SingleScreenUpper:
         return (addr & 0x3ff) | 0x400;
+    default:
+        return 0;
     }
 }
 
-void VRam::SaveState(std::ofstream& ofs)
+void VRam::SaveState(IWriteStream* ostream)
 {
     // mapper is saved by memory map
-    ofs.write((char*)_nametables, sizeof(_nametables));
-    ofs.write((char*)_palette, sizeof(_palette));
+    ostream->WriteBytes((u8*)_nametables, sizeof(_nametables));
+    ostream->WriteBytes((u8*)_palette, sizeof(_palette));
 }
 
-void VRam::LoadState(std::ifstream& ifs)
+void VRam::LoadState(IReadStream* istream)
 {
-    ifs.read((char*)_nametables, sizeof(_nametables));
-    ifs.read((char*)_palette, sizeof(_palette));
+    istream->ReadBytes((u8*)_nametables, sizeof(_nametables));
+    istream->ReadBytes((u8*)_palette, sizeof(_palette));
 }
 
 Oam::Oam()
@@ -881,14 +883,14 @@ void Oam::storeb(u16 addr, u8 val)
     _ram[(u8)addr] = val;
 }
 
-void Oam::SaveState(std::ofstream& ofs)
+void Oam::SaveState(IWriteStream* ostream)
 {
-    ofs.write((char*)_ram, sizeof(_ram));
+    ostream->WriteBytes((u8*)_ram, sizeof(_ram));
 }
 
-void Oam::LoadState(std::ifstream& ifs)
+void Oam::LoadState(IReadStream* istream)
 {
-    ifs.read((char*)_ram, sizeof(_ram));
+    istream->ReadBytes((u8*)_ram, sizeof(_ram));
 }
 
 const Sprite* Oam::operator[](const int index)

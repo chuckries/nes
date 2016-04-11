@@ -43,26 +43,26 @@ void Cpu::storeb(u16 addr, u8 val)
 }
 
 // ISaveState
-void Cpu::SaveState(std::ofstream& ofs)
+void Cpu::SaveState(IWriteStream* ostream)
 {
-    Util::WriteBytes(_regs.A, ofs);
-    Util::WriteBytes(_regs.X, ofs);
-    Util::WriteBytes(_regs.Y, ofs);
-    Util::WriteBytes(_regs.P, ofs);
-    Util::WriteBytes(_regs.S, ofs);
-    Util::WriteBytes(_regs.PC, ofs);
-    _mem->SaveState(ofs);
+    Util::WriteBytes(_regs.A, ostream);
+    Util::WriteBytes(_regs.X, ostream);
+    Util::WriteBytes(_regs.Y, ostream);
+    Util::WriteBytes(_regs.P, ostream);
+    Util::WriteBytes(_regs.S, ostream);
+    Util::WriteBytes(_regs.PC, ostream);
+    _mem->SaveState(ostream);
 }
 
-void Cpu::LoadState(std::ifstream& ifs)
+void Cpu::LoadState(IReadStream* istream)
 {
-    Util::ReadBytes(_regs.A, ifs);
-    Util::ReadBytes(_regs.X, ifs);
-    Util::ReadBytes(_regs.Y, ifs);
-    Util::ReadBytes(_regs.P, ifs);
-    Util::ReadBytes(_regs.S, ifs);
-    Util::ReadBytes(_regs.PC, ifs);
-    _mem->LoadState(ifs);
+    Util::ReadBytes(_regs.A, istream);
+    Util::ReadBytes(_regs.X, istream);
+    Util::ReadBytes(_regs.Y, istream);
+    Util::ReadBytes(_regs.P, istream);
+    Util::ReadBytes(_regs.S, istream);
+    Util::ReadBytes(_regs.PC, istream);
+    _mem->LoadState(istream);
 }
 
 void Cpu::Dma(u8 val)

@@ -154,6 +154,7 @@
     <ClInclude Include="..\..\neSDL\sdlGfx.h" />
     <ClInclude Include="..\..\neSDL\sdlInput.h" />
     <ClInclude Include="..\..\neSDL\stdafx.h" />
+    <ClInclude Include="..\..\neSDL\stdStreamRom.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\neSDL\neSDL.cpp" />

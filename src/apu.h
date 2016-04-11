@@ -43,8 +43,8 @@ public:
     void Step(bool isDmaRunning, ApuStepResult& result, u32 &stealCycleCount);
 
     // SaveState / LoadState
-    void SaveState(std::ofstream& ofs);
-    void LoadState(std::ifstream& ifs);
+    void SaveState(IWriteStream* ostream);
+    void LoadState(IReadStream* istream);
 private:
 
     // Registers

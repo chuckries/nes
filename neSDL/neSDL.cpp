@@ -2,6 +2,7 @@
 #include "sdlAudio.h"
 #include "sdlGfx.h"
 #include "sdlInput.h"
+#include "stdStreamRom.h"
 
 int main(int argc, char* argv[])
 {
@@ -11,9 +12,14 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    NPtr<SdlAudioProvider> audioProvider(new SdlAudioProvider(44100));
+    NPtr<SdlAudioProvider> audioProvider;
+    audioProvider.Attach(new SdlAudioProvider(44100));
+
+    NPtr<StdStreamRomFile> romFile;
+    romFile.Attach(new StdStreamRomFile(argv[1]));
+
     NPtr<INes> nes;
-    if (!Nes_Create(argv[1], audioProvider, &nes))
+    if (!Nes_Create(romFile, audioProvider, &nes))
     {
         return 1;
     }
@@ -32,11 +38,29 @@ int main(int argc, char* argv[])
 
         if (result == InputResult::SaveState)
         {
-            nes->SaveState();
+            NPtr<IWriteStream> ostream;
+            if (romFile->GetSaveStateStream(&ostream))
+            {
+                nes->SaveState(ostream);
+                printf("State Saved!\n");
+            }
+            else
+            {
+                printf("Save State Failed!\n");
+            }
         }
         else if (result == InputResult::LoadState)
         {
-            nes->LoadState();
+            NPtr<IReadStream> istream;
+            if (romFile->GetLoadStateStream(&istream))
+            {
+                nes->LoadState(istream);
+                printf("State Loaded!\n");
+            }
+            else
+            {
+                printf("Load State Failed!\n");
+            }
         }
         else if (result == InputResult::Quit)
         {
