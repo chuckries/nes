@@ -1,46 +1,12 @@
 #include "pch.h"
 #include "NesRuntimeComponent.h"
-#include "StorageFileRom.h"
+#include "Rom.h"
 #include "XA2AudioProvider.h"
 
 using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
-
-//StorageFileRom::StorageFileRom(StorageFile^ romFile)
-//    : RomBase("")
-//    , _romFile(romFile)
-//{
-//}
-//
-//bool StorageFileRom::OpenRomFile()
-//{
-//    return create_task(_romFile->OpenReadAsync()).then([=](IRandomAccessStreamWithContentType^ stream)
-//    {
-//        if (!stream->CanRead)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            _dataReader = ref new DataReader(stream);
-//            create_task(_dataReader->LoadAsync(stream->Size)).wait();
-//            return true;
-//        }
-//    }).get();
-//}
-//
-//void StorageFileRom::CloseRomFile()
-//{
-//    _dataReader = nullptr;
-//    _romFile = nullptr;
-//}
-//
-//void StorageFileRom::ReadRomBytes(unsigned char* buf, long long count)
-//{
-//    _dataReader->ReadBytes(ArrayReference<unsigned char>(buf, (unsigned int)count));
-//}
 
 namespace NesRuntimeComponent
 {
@@ -98,15 +64,13 @@ namespace NesRuntimeComponent
     {
     }
 
-    IAsyncOperation<Nes^>^ Nes::Create(StorageFile^ romFile)
+    IAsyncOperation<Nes^>^ Nes::Create(RomFile^ romFile)
     {
         return create_async([=]() {
-            NPtr<StorageFileRom> rom;
-            rom.Attach(new StorageFileRom(romFile));
             NPtr<XA2AudioProvider> audioProvider;
             audioProvider.Attach(new XA2AudioProvider(44100));
             NPtr<::Nes> nes;
-            ::Nes::Create(static_cast<IRomFile*>(rom), static_cast<IAudioProvider*>(audioProvider), &nes);
+            ::Nes::Create(static_cast<IRomFile*>(romFile->Native), static_cast<IAudioProvider*>(audioProvider), &nes);
             return ref new Nes(nes);
         });
     }

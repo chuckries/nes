@@ -100,7 +100,12 @@ namespace nesUWP
                 picker.FileTypeFilter.Add(".nes");
                 file = await picker.PickSingleFileAsync();
             }
-            _nes = await Nes.Create(file);
+
+            var romStream = await file.OpenReadAsync();
+
+            RomFile romFile = new RomFile(file.Name, romStream);
+
+            _nes = await Nes.Create(romFile);
             _controller0 = _nes.GetStandardController(0);
             Window.Current.CoreWindow.KeyDown += HandleKey;
             Window.Current.CoreWindow.KeyUp += HandleKey;

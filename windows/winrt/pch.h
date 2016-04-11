@@ -1,11 +1,11 @@
 ﻿#pragma once
 
+// Library Dependencies
 #include <atlbase.h>
 #include <collection.h>
 #include <ppltasks.h>
 #include <xaudio2.h>
 using namespace concurrency;
-
 
 // Nes dependencies
 #include "..\..\include\nes_interfaces.h"
@@ -13,6 +13,12 @@ using namespace concurrency;
 #include "..\..\include\nptr.h"
 #include "..\..\src\types.h"
 #include "..\..\src\nes.h"
+
+// WinRT Namspaces
+using namespace Platform;
+using namespace Windows::Foundation;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
 
 #define IfFailRet(HR) do { hr = (HR); if (FAILED(hr)) return hr; } while (false)
 #define IfNullRet(P) do { if (!(P)) return E_FAIL; } while (false)

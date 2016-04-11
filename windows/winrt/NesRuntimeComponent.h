@@ -2,6 +2,8 @@
 
 namespace NesRuntimeComponent
 {
+    ref class RomFile;
+
     public ref class StandardController sealed
     {
     public:
@@ -27,8 +29,8 @@ namespace NesRuntimeComponent
         virtual ~Nes();
 
     public:
-        static Windows::Foundation::IAsyncOperation<Nes^>^ Create(Windows::Storage::StorageFile^ romFile);
-        void DoFrame(Platform::WriteOnlyArray<unsigned char>^ screen);
+        static IAsyncOperation<Nes^>^ Create(RomFile^ rom);
+        void DoFrame(WriteOnlyArray<unsigned char>^ screen);
         StandardController^ GetStandardController(unsigned int port);
 
     private:
