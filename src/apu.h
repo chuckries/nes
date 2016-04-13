@@ -26,6 +26,8 @@ public:
     Apu(bool isPal, IAudioProvider* audioProvider);
     virtual ~Apu();
 
+    void Close();
+
 public:
     DELEGATE_NESOBJECT_REFCOUNTING();
 

@@ -9,6 +9,11 @@ protected:
     }
 
 public:
+    virtual ~RandomAccessReadStream()
+    {
+    }
+
+public:
     static IAsyncOperation<bool>^ Create(IRandomAccessStream^ stream, RandomAccessReadStream** randomAccessReadStream)
     {
         return create_async([=]() {
@@ -34,10 +39,46 @@ private:
     DataReader^ _dataReader;
 };
 
-class RomFile: public IRomFile, public NesObject
+class RandomAccessWriteStream: public IWriteStream, public NesObject
+{
+protected:
+    RandomAccessWriteStream(DataWriter^ dataWriter)
+        : _dataWriter(dataWriter)
+    {
+    }
+
+public:
+    virtual ~RandomAccessWriteStream()
+    {
+    }
+
+public:
+    static IAsyncOperation<bool>^ Create(IRandomAccessStream^ stream, RandomAccessWriteStream** randomAccessWriteStream)
+    {
+        return create_async([=]() {
+            DataWriter^ writer = ref new DataWriter(stream);
+            *randomAccessWriteStream = new RandomAccessWriteStream(writer);
+            return true;
+        });
+    }
+
+public:
+    void WriteBytes(unsigned char* buf, long long count)
+    {
+        _dataWriter->WriteBytes(ArrayReference<unsigned char>(buf, count));
+    }
+
+public:
+    DELEGATE_NESOBJECT_REFCOUNTING();
+
+private:
+    DataWriter^ _dataWriter;
+};
+
+class RandomAccessStreamRomFile: public IRomFile, public NesObject
 {
 public:
-    RomFile(IRandomAccessStream^ romStream)
+    RandomAccessStreamRomFile(IRandomAccessStream^ romStream)
         : _romStream(romStream)
     {
     }
@@ -49,13 +90,56 @@ public:
 public:
     bool GetRomFileStream(IReadStream** stream) {
         NPtr<RandomAccessReadStream> randomAccessReadStream;
-        bool succeeded = create_task(::RandomAccessReadStream::Create(_romStream, &randomAccessReadStream)).get();
-        *stream = static_cast<IReadStream*>(randomAccessReadStream.Detach());
-        return succeeded;
+        if (create_task(::RandomAccessReadStream::Create(_romStream, &randomAccessReadStream)).get())
+        {
+            *stream = static_cast<IReadStream*>(randomAccessReadStream.Detach());
+            return true;
+        }
+        return false;
     }
 
-    bool GetSaveGameStream(IWriteStream** stream) { return false; }
-    bool GetLoadGameStream(IReadStream** stream) { return false; }
+    bool GetSaveGameStream(IWriteStream** stream)
+    {
+        try
+        {
+            IRandomAccessStream^ randomAccessStream = create_task(ApplicationData::Current->RoamingFolder->CreateFileAsync(L"save.sav", CreationCollisionOption::ReplaceExisting)).then([](StorageFile^ file)
+            {
+                return file->OpenAsync(FileAccessMode::ReadWrite);
+            }).get();
+            NPtr<RandomAccessWriteStream> randomAccessWriteStream;
+            if (create_task(::RandomAccessWriteStream::Create(randomAccessStream, &randomAccessWriteStream)).get())
+            {
+                *stream = static_cast<IWriteStream*>(randomAccessWriteStream.Detach());
+                return true;;
+            }
+            return false;
+        }
+        catch (Exception^ e)
+        {
+            return false;
+        }
+    }
+
+    bool GetLoadGameStream(IReadStream** stream)
+    {
+        try {
+            IRandomAccessStream^ randomAccessStream = create_task(ApplicationData::Current->RoamingFolder->GetFileAsync(L"save.sav")).then([](StorageFile^ file)
+            {
+                return file->OpenReadAsync();
+            }).get();
+            NPtr<RandomAccessReadStream> randomAccessReadStream;
+            if (create_task(::RandomAccessReadStream::Create(randomAccessStream, &randomAccessReadStream)).get())
+            {
+                *stream = static_cast<IReadStream*>(randomAccessReadStream.Detach());
+                return true;
+            }
+            return false;
+        }
+        catch (Exception^ e)
+        {
+            return false;
+        }
+    }
 
 private:
     IRandomAccessStream^ _romStream;
@@ -69,19 +153,19 @@ namespace NesRuntimeComponent
         RomFile(String^ name, IRandomAccessStream^ romStream)
             : _name(name)
         {
-            _romFile.Attach(new ::RomFile(romStream));
+            _romFile.Attach(new ::RandomAccessStreamRomFile(romStream));
         }
 
     internal:
-        property ::RomFile* Native
+        property ::RandomAccessStreamRomFile* Native
         {
-            ::RomFile* get()
+            ::RandomAccessStreamRomFile* get()
             {
                 return _romFile;
             }
         }
     private:
         Platform::String^ _name;
-        NPtr<::RomFile> _romFile;
+        NPtr<::RandomAccessStreamRomFile> _romFile;
     };
 }

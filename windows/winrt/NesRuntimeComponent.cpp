@@ -62,6 +62,7 @@ namespace NesRuntimeComponent
 
     Nes::~Nes()
     {
+        _nes->Dispose();
     }
 
     IAsyncOperation<Nes^>^ Nes::Create(RomFile^ romFile)

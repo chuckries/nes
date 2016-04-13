@@ -25,7 +25,6 @@ namespace nesUWP
         public MainPage()
         {
             this.InitializeComponent();
-            this.Loaded += MainPage_Loaded;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -40,10 +39,6 @@ namespace nesUWP
                     _romFile = (Windows.Storage.StorageFile)fileArgs.Files[0];
                 }
             }
-        }
-
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
         }
 
         private void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)

@@ -15,12 +15,12 @@
 Nes::Nes(Rom* rom, IMapper* mapper, IAudioProvider* audioProvider)
     : _rom(rom)
 {
-    _debugger = new DebugService();
-    _ppu = new Ppu(mapper);
-    _apu = new Apu(false, audioProvider);
-    _input = new Input();
-    _mem = new MemoryMap(_ppu, _apu, _input, mapper);
-    _cpu = new Cpu(_mem, _debugger);
+    _debugger.Attach(new DebugService());
+    _ppu.Attach(new Ppu(mapper));
+    _apu.Attach(new Apu(false, audioProvider));
+    _input.Attach(new Input());
+    _mem.Attach(new MemoryMap(_ppu, _apu, _input, mapper));
+    _cpu.Attach(new Cpu(_mem, _debugger));
 
     // TODO: Move these to an init method
     _cpu->Reset();
