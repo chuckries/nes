@@ -73,6 +73,7 @@ void IMapper::LoadState(std::ifstream& ifs)
 
 NRom::NRom(Rom* rom)
     : IMapper(rom)
+    , _chrRam(0)
 {
     if (_rom->Header.ChrRomSize > 0)
     {
@@ -80,7 +81,8 @@ NRom::NRom(Rom* rom)
     }
     else
     {
-        _chrBuf = _chrRam;
+        _chrRam.resize(0x2000);
+        _chrBuf = &_chrRam[0];
     }
 }
 
@@ -128,13 +130,13 @@ void NRom::chr_storeb(u16 addr, u8 val)
 void NRom::SaveState(std::ofstream& ofs)
 {
     IMapper::SaveState(ofs);
-    ofs.write((char*)_chrRam, sizeof(_chrRam));
+    Util::WriteBytes(_chrRam, ofs);
 }
 
 void NRom::LoadState(std::ifstream& ifs)
 {
     IMapper::LoadState(ifs);
-    ifs.read((char*)_chrRam, sizeof(_chrRam));
+    Util::ReadBytes(_chrRam, ifs);
 }
 
 /// SxRom (Mapper #1)
@@ -436,9 +438,21 @@ void CNRom::LoadState(std::ifstream& ifs)
 
 TxRom::TxRom(Rom* rom)
     : IMapper(rom)
+    , _chrRam(0)
 {
     _lastBankIndex = (_rom->Header.PrgRomSize * 2) - 1; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
     _secondLastBankIndex = (_rom->Header.PrgRomSize * 2) - 2; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
+
+    if (_rom->Header.ChrRomSize > 0)
+    {
+        _chrBuf = &_rom->ChrRom[0];
+    }
+    else
+    {
+        _chrRam.resize(0x2000);
+        _chrBuf = &_chrRam[0];
+    }
+
     Reset(true);
 }
 
@@ -600,30 +614,32 @@ void TxRom::SetSegmentAddresses()
     }
 }
 
-u8 TxRom::chr_loadb(u16 addr)
+u32 TxRom::GetChrSegmetAddress(u16 addr)
 {
-    u32 baseAddr = 0;
-
     switch (addr & 0x1c00)
     {
-    case 0x0000: baseAddr = _chrSegmentAddr[0]; break;
-    case 0x0400: baseAddr = _chrSegmentAddr[1]; break;
-    case 0x0800: baseAddr = _chrSegmentAddr[2]; break;
-    case 0x0c00: baseAddr = _chrSegmentAddr[3]; break;
-    case 0x1000: baseAddr = _chrSegmentAddr[4]; break;
-    case 0x1400: baseAddr = _chrSegmentAddr[5]; break;
-    case 0x1800: baseAddr = _chrSegmentAddr[6]; break;
-    case 0x1c00: baseAddr = _chrSegmentAddr[7]; break;
-    default:
-        baseAddr = 0;
+    case 0x0000: return _chrSegmentAddr[0];
+    case 0x0400: return _chrSegmentAddr[1];
+    case 0x0800: return _chrSegmentAddr[2];
+    case 0x0c00: return _chrSegmentAddr[3];
+    case 0x1000: return _chrSegmentAddr[4];
+    case 0x1400: return _chrSegmentAddr[5];
+    case 0x1800: return _chrSegmentAddr[6];
+    case 0x1c00: return _chrSegmentAddr[7];
+    default: return 0;
     }
+}
 
-    return _rom->ChrRom[baseAddr + (addr & 0x3ff)];
+u8 TxRom::chr_loadb(u16 addr)
+{
+    return _chrBuf[GetChrSegmetAddress(addr) + (addr & 0x3ff)];
 }
 
 void TxRom::chr_storeb(u16 addr, u8 val)
 {
-    // not sure if mmc3 can have ChrRam
+    // only ever write to chrRam, never chrRom.
+    // if we don't have _chrRam this will break
+    _chrRam[GetChrSegmetAddress(addr) + (addr & 0x3ff)] = val;
 }
 
 bool TxRom::Scanline()
