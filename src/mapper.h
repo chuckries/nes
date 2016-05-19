@@ -24,7 +24,7 @@ public:
 
 private:
     u8* _chrBuf;
-    u8 _chrRam[0x2000]; // If no ChrRom is provided we will give ChrRam
+    std::vector<u8> _chrRam; // If no ChrRom is provided we will give ChrRam
 };
 
 class SxRom : public IMapper, public NesObject
@@ -133,6 +133,7 @@ public:
 
 private:
     void SetSegmentAddresses();
+    u32 GetChrSegmetAddress(u16 addr);
 
 private:
     bool _chrMode;
@@ -151,6 +152,9 @@ private:
     u16 _irqReload;
     bool _irqEnable;
     bool _irqPending;
+
+    u8* _chrBuf;
+    std::vector<u8> _chrRam;
 };
 
 // AxRom, #7

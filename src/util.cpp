@@ -27,6 +27,14 @@ void Util::WriteBytes(i32 val, std::ofstream& ofs)
     ofs.write((char*)&val, sizeof(val));
 }
 
+void Util::WriteBytes(const std::vector<u8>& val, std::ofstream& ofs)
+{
+    //write the length of the vector, then the bytes
+    size_t length = val.size();
+    ofs.write((char*)&length, sizeof(length));
+    ofs.write((char*)&val[0], length);
+}
+
 void Util::ReadBytes(bool& val, std::ifstream& ifs)
 {
     u8 buf;
@@ -52,4 +60,12 @@ void Util::ReadBytes(u32& val, std::ifstream& ifs)
 void Util::ReadBytes(i32& val, std::ifstream& ifs)
 {
     ifs.read((char*)&val, sizeof(val));
+}
+
+void Util::ReadBytes(std::vector<u8>& val, std::ifstream& ifs)
+{
+    size_t length = 0;
+    ifs.read((char*)&length, sizeof(length));
+    val.resize(length);
+    ifs.read((char*)&val[0], length);
 }
