@@ -87,10 +87,6 @@ void Cpu::Dma(u8 val)
 
 void Cpu::Step()
 {
-#if defined(TRACE)
-    Trace();
-#endif
-
     if (_dmaBytesRemaining > 0)
     {
         // DMA is in progress.
@@ -101,6 +97,10 @@ void Cpu::Step()
 
         return;
     }
+
+#if defined(TRACE)
+    Trace();
+#endif
 
     _debugger->OnBeforeExecuteInstruction(_regs.PC);
     _op = LoadBBumpPC();
@@ -137,13 +137,13 @@ void Cpu::Trace()
 {
     Disassembler disassembler(_regs.PC, _mem);
 
-    DisassembledInstruction* instruction = nullptr;
-    disassembler.Disassemble(&instruction);
+    DisassembledInstruction instruction;
+    disassembler.Disassemble(instruction);
 
     printf("%04X %-10s %-12s A:%02x X:%02X Y:%02X P:%02X S:%02X CY:%d\n",
         _regs.PC,
-        instruction->GetFormattedBytes().c_str(),
-        instruction->GetDisassemblyString().c_str(),
+        instruction.GetFormattedBytes().c_str(),
+        instruction.GetDisassemblyString().c_str(),
         _regs.A,
         _regs.X,
         _regs.Y,
@@ -151,10 +151,5 @@ void Cpu::Trace()
         _regs.S,
         Cycles
         );
-
-    if (instruction != nullptr)
-    {
-        delete instruction;
-    }
 }
 #endif

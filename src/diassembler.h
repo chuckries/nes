@@ -35,6 +35,11 @@ public:
         return _ss.str();
     }
 
+    void Reset()
+    {
+        _ss.clear();
+    }
+
 private:
     friend class Disassembler;
     std::stringstream _ss;
@@ -48,11 +53,12 @@ public:
     Disassembler(u16 PC, IMem* mem);
     ~Disassembler();
 
-    void Disassemble(DisassembledInstruction** disassembledInstruction);
+    void Disassemble(DisassembledInstruction& disassembledInstruction);
 
 private:
     u16 _PC;
     NPtr<IMem> _mem;
+    DisassembledInstruction* _pInstr;
 
     // Helpers
     u8 LoadBBumpPC()
@@ -100,84 +106,84 @@ private:
     }
 
     // Addressing Modes
-    void Immediate(DisassembledInstruction* instr) 
+    void Immediate() 
     { 
-        instr->_bytes.push_back(PeekPC());
-        instr->_ss << '#' << DisBBumpPC(); 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << '#' << DisBBumpPC();
     }
 
-    void Accumulator(DisassembledInstruction* instr) { }
+    void Accumulator() { }
 
-    void ZeroPage(DisassembledInstruction* instr) 
+    void ZeroPage() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_ss << DisBBumpPC(); 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << DisBBumpPC();
     }
 
-    void ZeroPageX(DisassembledInstruction* instr) 
+    void ZeroPageX() 
     {
-        instr->_bytes.push_back(PeekPC()); 
-        instr->_ss << DisBBumpPC() << ",X"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << DisBBumpPC() << ",X";
     }
 
-    void ZeroPageY(DisassembledInstruction* instr) 
+    void ZeroPageY() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_ss << DisBBumpPC() << ",Y"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << DisBBumpPC() << ",Y";
     }
 
-    void Absolute(DisassembledInstruction* instr) 
+    void Absolute() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
-        instr->_ss << DisWBumpPC(); 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
+        _pInstr->_ss << DisWBumpPC();
     }
 
-    void AbsoluteX(DisassembledInstruction* instr) 
+    void AbsoluteX() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
-        instr->_ss << DisWBumpPC() << ",X"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
+        _pInstr->_ss << DisWBumpPC() << ",X";
     }
 
-    void AbsoluteY(DisassembledInstruction* instr)
+    void AbsoluteY()
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
-        instr->_ss << DisWBumpPC() << ",Y"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
+        _pInstr->_ss << DisWBumpPC() << ",Y";
     }
 
-    void IndexedIndirectX(DisassembledInstruction* instr) 
+    void IndexedIndirectX() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_ss << '(' << DisBBumpPC() << ",X)"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << '(' << DisBBumpPC() << ",X)";
     }
 
-    void IndirectIndexedY(DisassembledInstruction* instr) 
+    void IndirectIndexedY() 
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_ss << '(' << DisBBumpPC() << "),Y"; 
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_ss << '(' << DisBBumpPC() << "),Y";
     }
 
     // Instructions
 #define INSTRUCTION(codeName, displayName) \
-void codeName(DisassembledInstruction* instr) \
+void codeName() \
 { \
-    std::string address = instr->_ss.str(); \
-    instr->_ss.str(displayName); \
-    instr->_ss << ' ' << address; \
+    std::string address = _pInstr->_ss.str(); \
+    _pInstr->_ss.str(displayName); \
+    _pInstr->_ss << ' ' << address; \
 } 
 
 #define IMPLIED(codeName, displayName) \
-void codeName(DisassembledInstruction* instr) { \
-    instr->_ss << displayName; \
+void codeName() { \
+    _pInstr->_ss << displayName; \
 }
 
 #define BRANCH(codeName, displayName) \
-void codeName(DisassembledInstruction* instr) \
+void codeName() \
 { \
-    instr->_bytes.push_back(PeekPC()); \
-    instr->_ss << displayName << ' ' << DisBranchTarget(); \
+    _pInstr->_bytes.push_back(PeekPC()); \
+    _pInstr->_ss << displayName << ' ' << DisBranchTarget(); \
 }
 
     // Loads
@@ -247,31 +253,31 @@ void codeName(DisassembledInstruction* instr) \
     BRANCH(beq, "BEQ")
 
     // Jumps
-    void jmp(DisassembledInstruction* instr)
+    void jmp()
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
 
-        instr->_ss << "JMP " << DisWBumpPC();
+        _pInstr->_ss << "JMP " << DisWBumpPC();
     }
 
-    void jmpi(DisassembledInstruction* instr)
+    void jmpi()
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
 
         u16 val = _mem->loadw(LoadWBumpPC());
 
-        instr->_ss << "JMP ($" << std::hex << std::uppercase << std::setw(4) << std::setfill('0') << val << ')';
+        _pInstr->_ss << "JMP ($" << std::hex << std::uppercase << std::setw(4) << std::setfill('0') << val << ')';
     }
 
     // Procedure Calls
-    void jsr(DisassembledInstruction* instr)
+    void jsr()
     {
-        instr->_bytes.push_back(PeekPC());
-        instr->_bytes.push_back(PeekPC(1));
+        _pInstr->_bytes.push_back(PeekPC());
+        _pInstr->_bytes.push_back(PeekPC(1));
 
-        instr->_ss << "JSR " << DisWBumpPC();
+        _pInstr->_ss << "JSR " << DisWBumpPC();
     }
     IMPLIED(rts, "RTS")
     IMPLIED(brk, "BRK")

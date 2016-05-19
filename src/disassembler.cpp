@@ -7,6 +7,7 @@
 Disassembler::Disassembler(u16 PC, IMem* mem)
     : _PC(PC)
     , _mem(mem)
+    , _pInstr(nullptr)
 {
 }
 
@@ -14,16 +15,16 @@ Disassembler::~Disassembler()
 {
 }
 
-void Disassembler::Disassemble(DisassembledInstruction** ppDisassembledInstruction)
+void Disassembler::Disassemble(DisassembledInstruction& disassembledInstruction)
 {
-    DisassembledInstruction* am = new DisassembledInstruction();
+    disassembledInstruction.Reset();
 
     u8 op = LoadBBumpPC();
-    am->_bytes.push_back(op);
+    disassembledInstruction._bytes.push_back(op);
 
+    _pInstr = &disassembledInstruction;
     DECODE(op)
 
-    *ppDisassembledInstruction = am;
 }
 
 #endif
