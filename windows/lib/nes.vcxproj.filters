@@ -74,6 +74,9 @@
     <ClInclude Include="..\..\include\nes_interfaces.h">
       <Filter>API Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\new-cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\apu.cpp">
@@ -113,6 +116,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\new-cpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

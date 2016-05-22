@@ -29,7 +29,7 @@ private:
 
 #if defined(RENDER_NAMETABLE)
 public:
-    void BlitNameTable(u8 screen[], int i);
+    void BlitNameTable(unsigned char screen[], int i);
 
 private:
     SDL_Window* _nt_window[4];

@@ -41,7 +41,6 @@ public:
     virtual u8 loadb(u16 addr);
     virtual void storeb(u16 addr, u8 val);
 
-    void Step(u32 &cycles, bool isDmaRunning, ApuStepResult& result);
     void Step(bool isDmaRunning, ApuStepResult& result, u32 &stealCycleCount);
 
     // SaveState / LoadState

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "nes.h"
-#include "cpu.h"
+#include "new-cpu.h"
 #include "debug.h"
 #include "mem.h"
 #include "ppu.h"
@@ -15,15 +15,16 @@
 Nes::Nes(Rom* rom, IMapper* mapper, IAudioProvider* audioProvider)
     : _rom(rom)
 {
-    _debugger = new DebugService();
+    //_debugger = new DebugService();
     _ppu = new Ppu(mapper);
     _apu = new Apu(false, audioProvider);
     _input = new Input();
     _mem = new MemoryMap(_ppu, _apu, _input, mapper);
-    _cpu = new Cpu(_mem, _debugger);
+    //_cpu = new Cpu(_mem, _debugger);
+    _newCpu.Attach(new NewCpu(_mem));
 
     // TODO: Move these to an init method
-    _cpu->Reset(true);
+    _newCpu->Reset(true);
     _apu->StartAudio(_mem); 
 }
 
@@ -62,7 +63,7 @@ void Nes::Dispose()
     _apu.Release();
     _input.Release();
     _mem.Release();
-    _cpu.Release();
+    //_cpu.Release();
 }
 
 void Nes::DoFrame(u8 screen[])
@@ -74,19 +75,20 @@ void Nes::DoFrame(u8 screen[])
         ppuResult.Reset();
         apuResult.Reset();
 
-        _cpu->Step();
-        _apu->Step(_cpu->Cycles, _cpu->IsDmaRunning(), apuResult);
-        _ppu->Step(_cpu->Cycles * 3, screen, ppuResult);
+        _newCpu->Step();
+        u32 stealCycles = 0;
+        _apu->Step(_newCpu->IsDmaRunning(), apuResult, stealCycles);
+        _newCpu->StealCycles(stealCycles);
+        _ppu->Step(3, screen, ppuResult);
         
-        _cpu->Cycles = 0;
         
         if (ppuResult.WantNmi)
         {
-            _cpu->Nmi();
+            _newCpu->Nmi();
         }
         else if (apuResult.Irq || ppuResult.WantIrq)
         {
-            _cpu->Irq();
+            _newCpu->Irq();
         }
     } while (!ppuResult.VBlank);
 }
@@ -130,6 +132,6 @@ void Nes::LoadState()
 
 void Nes::Reset(bool hard)
 {
-    _cpu->Reset(hard);
+    _newCpu->Reset(hard);
     _mem->Reset(hard);
 }
