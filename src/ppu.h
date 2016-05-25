@@ -150,7 +150,7 @@ private:
 
     // FIXME: This is enough VRAM for two name tables
     // FIXME: Which is not correct for all mapper scenarios
-    u8 _nametables[0x800];
+    u8 _nametables[0x1000];
 
     u8 _palette[0x20];
 };
@@ -332,6 +332,8 @@ private:
     bool _clipSprites;
     bool _showBackground;
     bool _showSprites;
+    u16 _intensityMask;
+    u16 _monochromeMask;
 
     // VRam Registers Registers PPUSCROLL and PPUADDR
     // http://wiki.nesdev.com/w/index.php/PPU_scrolling

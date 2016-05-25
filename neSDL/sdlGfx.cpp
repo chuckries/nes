@@ -3,8 +3,11 @@
 #include "../src/nes_ntsc.h"
 
 #if !defined(RENDER_GRID)
-const unsigned int SCREEN_WIDTH = 256;
-const unsigned int SCREEN_HEIGHT = 240;
+const unsigned int SCREEN_WIDTH = 640;
+const unsigned int SCREEN_HEIGHT = 480;
+
+const unsigned int FRAME_WIDTH = NES_NTSC_OUT_WIDTH(256);
+const unsigned int FRAME_HEIGHT = 240;
 #else
 const unsigned int SCREEN_WIDTH = 256 +32;
 const unsigned int SCREEN_HEIGHT = 240 +30;
@@ -93,9 +96,9 @@ SdlGfx::SdlGfx(unsigned int scale)
         "NES",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        NES_NTSC_OUT_WIDTH(SCREEN_WIDTH) * 2, // * scale ,
-        SCREEN_HEIGHT * 2 * 2, // * scale,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI
+        SCREEN_WIDTH * scale, // * scale ,
+        SCREEN_HEIGHT * scale, // * scale,
+        SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE
         );
 
     _renderer = SDL_CreateRenderer(
@@ -108,8 +111,8 @@ SdlGfx::SdlGfx(unsigned int scale)
         _renderer,
         SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING,
-        NES_NTSC_OUT_WIDTH(SCREEN_WIDTH),
-        SCREEN_HEIGHT
+        FRAME_WIDTH,
+        FRAME_HEIGHT
         );
 
     _lastDrawTime = std::chrono::high_resolution_clock::now();
@@ -177,9 +180,16 @@ void SdlGfx::Blit(unsigned char screen[])
     } while (duration < 16666667); // 60 fps
     _lastDrawTime = now;
 
-    SDL_UpdateTexture(_texture, NULL, (void*)screen_to_render, NES_NTSC_OUT_WIDTH(SCREEN_WIDTH) * 4);
+    SDL_UpdateTexture(_texture, NULL, (void*)screen_to_render, FRAME_WIDTH * 4);
     SDL_RenderClear(_renderer);
-    SDL_RenderCopy(_renderer, _texture, NULL, NULL);
+
+    SDL_Rect srcRect;
+    srcRect.x = 0;
+    srcRect.y = 8;
+    srcRect.w = FRAME_WIDTH;
+    srcRect.h = FRAME_HEIGHT - 16;
+
+    SDL_RenderCopy(_renderer, _texture, &srcRect, NULL);
     SDL_RenderPresent(_renderer);
 
     _frameCounter++;

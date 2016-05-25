@@ -13,7 +13,8 @@ enum class NameTableMirroring : u8
     SingleScreenUpper = 0,
     SingleScreenLower = 1,
     Vertical = 2,
-    Horizontal = 3
+    Horizontal = 3,
+    FourScreen = 4
 };
 
 #pragma pack()
@@ -70,7 +71,8 @@ struct INesHeader
 
     NameTableMirroring Mirroring()
     {
-        return (flags6 & 0x1) == 0 ? NameTableMirroring::Horizontal : NameTableMirroring::Vertical;
+        if (flags6 & (1 << 3)) return NameTableMirroring::FourScreen;
+        else return (flags6 & 0x1) == 0 ? NameTableMirroring::Horizontal : NameTableMirroring::Vertical;
     }
 };
 

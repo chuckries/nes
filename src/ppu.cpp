@@ -35,6 +35,7 @@ void Ppu::Reset(bool hard)
         _clipSprites = false;
         _showBackground = false;
         _showSprites = false;
+        _intensityMask = 0;
         _oamAddr = 0;
         _lineSprites.resize(0);
         _spriteZeroOnLine = false;
@@ -235,10 +236,12 @@ void Ppu::Write2000(u8 val)
 // PPUMASK
 void Ppu::Write2001(u8 val)
 {
+    _monochromeMask =   (val & 1) == 1 ? 0xff30 : 0xffff;
     _clipBackground =   (val & (1 << 1)) == 0;
     _clipSprites =      (val & (1 << 2)) == 0;
     _showBackground =   (val & (1 << 3)) != 0;
     _showSprites =      (val & (1 << 4)) != 0;
+    _intensityMask =    ((u16)val & 0b11100000) << 1;
 }
 
 // OAMADDR
@@ -517,26 +520,28 @@ void Ppu::DrawScanline(u8 x, u16 rawScreen[])
         spriteOpqaue = GetSpriteColor(x, (u8)_scanline, backgroundPaletteIndex != 0, spritePaletteIndex, spritePriority);
     }
 
+    u8 colorIndex = 0;
     if (!backgroundOpaque && !spriteOpqaue)
     {
-        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backdropColorIndex;
+        colorIndex = backdropColorIndex;
     }
     else if (!spriteOpqaue)
     {
-        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backgroundPaletteIndex;
+        colorIndex = backgroundPaletteIndex;
     }
     else if (!backgroundOpaque)
     {
-        rawScreen[(_scanline * SCREEN_WIDTH + x)] = spritePaletteIndex;
+        colorIndex = spritePaletteIndex;
     }
     else if (spritePriority == SpritePriority::Above)
     {
-        rawScreen[(_scanline * SCREEN_WIDTH + x)] = spritePaletteIndex;
+        colorIndex  = spritePaletteIndex;
     }
     else if (spritePriority == SpritePriority::Below)
     {
-        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backgroundPaletteIndex;
+        colorIndex = backgroundPaletteIndex;
     }
+    rawScreen[(_scanline * SCREEN_WIDTH + x)] = (colorIndex & _monochromeMask) | _intensityMask;
 
     //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 0] = pixel.r;
     //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 1] = pixel.g;
@@ -818,6 +823,7 @@ u8 VRam::loadb(u16 addr)
     }
     else if (addr < 0x3f00)
     {
+        addr &= 0x2fff;
         return _nametables[NameTableAddress(addr)];
     }
     else if (addr < 0x4000)
@@ -840,6 +846,7 @@ void VRam::storeb(u16 addr, u8 val)
     }
     else if (addr < 0x3f00)
     {
+        addr &= 0x2fff;
         _nametables[NameTableAddress(addr)] = val;
     }
     else if (addr < 0x4000)
@@ -872,6 +879,8 @@ u16 VRam::NameTableAddress(u16 addr)
         return addr & 0x3ff;
     case NameTableMirroring::SingleScreenUpper:
         return (addr & 0x3ff) | 0x400;
+    case NameTableMirroring::FourScreen:
+        return addr & 0xfff;
     default:
         return 0;
     }

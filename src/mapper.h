@@ -50,29 +50,21 @@ public:
     void LoadState(std::ifstream& ifs);
 
 private:
-    u32 ChrBufAddress(u16 addr);
+    void SetSegmentAddresses();
+    u32 GetChrAddress(u16 addr);
 
 private:
-    enum class ChrMode : u8
-    {
-        Mode8k = 0,
-        Mode4k = 1
-    };
-
-    enum class PrgSize : u8
-    {
-        Size32k = 0,
-        Size16k = 1,
-    };
-
-private:
-    PrgSize _prgSize;
-    ChrMode _chrMode;
+    bool _swap256;
+    bool _chrMode;
+    bool _prgSize;
     bool _slotSelect;
-    u8 _chrBank0;
-    u8 _chrBank1;
-    u8 _prgBank;
+    u8 _chrReg[2];
+    u8 _prgReg;
     u8 _accumulator;
+
+    u32 _prgSegmentAddr[2];
+    u32 _chrSegmentAddr[2];
+
     u8 _writeCount;
     u8* _chrBuf;
     std::vector<u8> _chrRam;
@@ -133,7 +125,7 @@ public:
 
 private:
     void SetSegmentAddresses();
-    u32 GetChrSegmetAddress(u16 addr);
+    u32 GetChrAddress(u16 addr);
 
 private:
     bool _chrMode;
@@ -145,8 +137,10 @@ private:
     u32 _prgSegmentAddr[4];
     u32 _chrSegmentAddr[8];
 
-    u32 _lastBankIndex;
-    u32 _secondLastBankIndex;
+    u32 _lastPrgBankIndex;
+    u32 _secondLastPrgBankIndex;
+    u8 _prgRegMask;
+    u8 _chrRegMask;
 
     u16 _irqCounter;
     u16 _irqReload;
@@ -154,7 +148,7 @@ private:
     bool _irqPending;
 
     u8* _chrBuf;
-    std::vector<u8> _chrRam;
+    u8 _chrRam[0x2000];
 };
 
 // AxRom, #7

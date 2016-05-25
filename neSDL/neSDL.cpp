@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     IStandardController* controller0 = nes->GetStandardController(0);
     SdlInput input(controller0);
 
-    SdlGfx gfx(3);
+    SdlGfx gfx(2);
 
     unsigned char screen[240 * NES_NTSC_OUT_WIDTH(256) * 4] = { 0 };
     for (;;)

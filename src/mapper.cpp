@@ -144,7 +144,6 @@ void NRom::LoadState(std::ifstream& ifs)
 SxRom::SxRom(Rom* rom)
     : IMapper(rom)
 {
-    Reset(true);
     if (rom->Header.ChrRomSize > 0)
     {
         _chrBuf = &rom->ChrRom[0];
@@ -154,6 +153,7 @@ SxRom::SxRom(Rom* rom)
         _chrRam.resize(0x2000);
         _chrBuf = &_chrRam[0];
     }
+    Reset(true);
 }
 
 SxRom::~SxRom()
@@ -165,14 +165,16 @@ void SxRom::Reset(bool hard)
     IMapper::Reset(hard);
     if (hard)
     {
-        _prgSize = PrgSize::Size16k;
-        _chrMode = ChrMode::Mode8k;
+        _swap256 = false;
+        _prgSize = true;
+        _chrMode = false;
         _slotSelect = true;
-        _chrBank0 = 0;
-        _chrBank1 = 0;
-        _prgBank = 0;
+        _prgReg = 0;
+        _chrReg[0] = 0;
+        _chrReg[1] = 0;
         _accumulator = 0;
         _writeCount = 0;
+        SetSegmentAddresses();
     }
     else
     {
@@ -188,41 +190,17 @@ u8 SxRom::prg_loadb(u16 addr)
     }
     else
     {
-        if (_prgSize == PrgSize::Size32k)
+        u32 baseAddress = 0;
+        if (addr < 0xc000)
         {
-            return _rom->PrgRom[((_prgBank >> 1) * 0x4000 * 2) + (addr & 0x7fff)];
-        }
-        else if (_prgSize == PrgSize::Size16k)
-        {
-            if (addr < 0xc000)
-            {
-                if (!_slotSelect)
-                {
-                    return _rom->PrgRom[addr & 0x3fff];
-                }
-                else
-                {
-                    return _rom->PrgRom[(_prgBank * 0x4000) + (addr & 0x3fff)];
-                }
-            }
-            else
-            {
-                if (!_slotSelect)
-                {
-                    return _rom->PrgRom[(_prgBank * 0x4000) + (addr & 0x3fff)];
-                }
-                else
-                {
-                    return _rom->PrgRom[((_rom->Header.PrgRomSize - 1) * 0x4000) + (addr & 0x3fff)];
-                }
-            }
+            baseAddress = _prgSegmentAddr[0];
         }
         else
         {
-            // can't happen
-            __debugbreak();
-            return 0;
+            baseAddress = _prgSegmentAddr[1];
         }
+
+        return _rom->PrgRom[baseAddress + (addr & 0x3fff)];
     }
 }
 
@@ -236,10 +214,12 @@ void SxRom::prg_storeb(u16 addr, u8 val)
 
     if ((val & (1 << 7)) != 0)
     {
+        _swap256 = false;
         _writeCount = 0;
         _accumulator = 0;
-        _prgSize = PrgSize::Size16k;
+        _prgSize = true;
         _slotSelect = true;
+        SetSegmentAddresses();
         return;
     }
 
@@ -258,20 +238,26 @@ void SxRom::prg_storeb(u16 addr, u8 val)
             case 3: Mirroring = NameTableMirroring::Horizontal; break;
             }
             _slotSelect = (_accumulator & (1 << 2)) != 0;
-            _prgSize = (_accumulator & (1 << 3)) == 0 ? PrgSize::Size32k : PrgSize::Size16k;
-            _chrMode = (_accumulator & (1 << 4)) == 0 ? ChrMode::Mode8k : ChrMode::Mode4k;
+            _prgSize = (_accumulator & (1 << 3)) != 0;
+            _chrMode = (_accumulator & (1 << 4)) != 0;
+            SetSegmentAddresses();
         }
         else if (addr <= 0xbfff)
         {
-            _chrBank0 = _accumulator & 0x1f;
+            _chrReg[0] = _accumulator & 0x1f;
+            _swap256 = (_rom->Header.PrgRomSize > 16) && ((_accumulator & (1 << 4)) != 0);
+            SetSegmentAddresses();
         }
         else if (addr <= 0xdfff)
         {
-            _chrBank1 = _accumulator & 0x1f;
+            _chrReg[1] = _accumulator & 0x1f;
+            _swap256 = (_rom->Header.PrgRomSize > 16) && ((_accumulator & (1 << 4)) != 0);
+            SetSegmentAddresses();
         }
         else
         {
-            _prgBank = (_accumulator & 0xf);
+            _prgReg = (_accumulator & 0xf);
+            SetSegmentAddresses();
         }
 
         _accumulator = 0;
@@ -280,59 +266,68 @@ void SxRom::prg_storeb(u16 addr, u8 val)
 
 u8 SxRom::chr_loadb(u16 addr)
 {
-    return _chrBuf[ChrBufAddress(addr)];
+    return _chrBuf[GetChrAddress(addr)];
 }
 
 void SxRom::chr_storeb(u16 addr, u8 val)
 {
-    _chrBuf[ChrBufAddress(addr)] = val;
+    _chrBuf[GetChrAddress(addr)] = val;
 }
 
-u32 SxRom::ChrBufAddress(u16 addr)
+void SxRom::SetSegmentAddresses()
 {
-    if (_chrMode == ChrMode::Mode4k)
+    if (!_prgSize)
     {
-        if (addr < 0x1000)
-        {
-            return (_chrBank0 * 0x1000) + addr;
-        }
-        else
-        {
-            return (_chrBank1 * 0x1000) + (addr & 0xfff);
-        }
+        _prgSegmentAddr[0] = (_prgReg >> 1) * 0x8000;
+        _prgSegmentAddr[1] = _prgSegmentAddr[0] + 0x4000;
+    }
+    else if (!_slotSelect)
+    {
+        _prgSegmentAddr[0] = 0;
+        _prgSegmentAddr[1] = _prgReg * 0x4000;
     }
     else
     {
-        return ((_chrBank0 >> 1) * 0x2000) + addr;
+        _prgSegmentAddr[0] = _prgReg * 0x4000;
+        _prgSegmentAddr[1] = (0x0f & (_rom->Header.PrgRomSize - 1)) * 0x4000;
     }
+
+    if (_swap256)
+    {
+        _prgSegmentAddr[0] |= 0x40000;
+        _prgSegmentAddr[1] |= 0x40000;
+    }
+
+    if (!_chrMode)
+    {
+        _chrSegmentAddr[0] = (_chrReg[0] >> 1) * 0x2000;
+        _chrSegmentAddr[1] = _chrSegmentAddr[0] + 0x1000;
+    }
+    else
+    {
+        _chrSegmentAddr[0] = _chrReg[0] * 0x1000;
+        _chrSegmentAddr[1] = _chrReg[1] * 0x1000;
+    }
+}
+
+u32 SxRom::GetChrAddress(u16 addr)
+{
+    u32 baseAddress = 0;
+    switch (addr & 0x1000)
+    {
+    case 0x0000: baseAddress = _chrSegmentAddr[0]; break;
+    case 0x1000: baseAddress = _chrSegmentAddr[1]; break;
+    }
+
+    return baseAddress + (addr & 0xfff);
 }
 
 void SxRom::SaveState(std::ofstream& ofs)
 {
-    IMapper::SaveState(ofs);
-    Util::WriteBytes((u8)_prgSize, ofs);
-    Util::WriteBytes((u8)_chrMode, ofs);
-    Util::WriteBytes(_slotSelect, ofs);
-    Util::WriteBytes(_chrBank0, ofs);
-    Util::WriteBytes(_chrBank1, ofs);
-    Util::WriteBytes(_prgBank, ofs);
-    Util::WriteBytes(_accumulator, ofs);
-    Util::WriteBytes(_writeCount, ofs);
-    ofs.write((char*)&_chrRam[0], _chrRam.size());
 }
 
 void SxRom::LoadState(std::ifstream& ifs)
 {
-    IMapper::LoadState(ifs);
-    Util::ReadBytes((u8&)_prgSize, ifs);
-    Util::ReadBytes((u8&)_chrMode, ifs);
-    Util::ReadBytes(_slotSelect, ifs);
-    Util::ReadBytes(_chrBank0, ifs);
-    Util::ReadBytes(_chrBank1, ifs);
-    Util::ReadBytes(_prgBank, ifs);
-    Util::ReadBytes(_accumulator, ifs);
-    Util::ReadBytes(_writeCount, ifs);
-    ifs.read((char*)&_chrRam[0], _chrRam.size());
 }
 
 /// UxRom (Mapper #2)
@@ -438,19 +433,21 @@ void CNRom::LoadState(std::ifstream& ifs)
 
 TxRom::TxRom(Rom* rom)
     : IMapper(rom)
-    , _chrRam(0)
 {
-    _lastBankIndex = (_rom->Header.PrgRomSize * 2) - 1; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
-    _secondLastBankIndex = (_rom->Header.PrgRomSize * 2) - 2; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
+    _lastPrgBankIndex = (_rom->Header.PrgRomSize * 2) - 1; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
+    _secondLastPrgBankIndex = _lastPrgBankIndex - 1; // PrgRomSize is in 0x4000 units, TxRom has 0x2000 size banks
+
+    _prgRegMask = _lastPrgBankIndex;
 
     if (_rom->Header.ChrRomSize > 0)
     {
         _chrBuf = &_rom->ChrRom[0];
+        _chrRegMask = (_rom->ChrRom.size() / 0x400) - 1;
     }
     else
     {
-        _chrRam.resize(0x2000);
-        _chrBuf = &_chrRam[0];
+        _chrBuf = _chrRam;
+        _chrRegMask = (0x2000 / 0x400) - 1;
     }
 
     Reset(true);
@@ -528,7 +525,10 @@ void TxRom::prg_storeb(u16 addr, u8 val)
     {
 
         // TODO: This can be disabled?
-        _rom->PrgRam[addr & 0x1fff] = val;
+        if (Mirroring != NameTableMirroring::FourScreen)
+        {
+            _rom->PrgRam[addr & 0x1fff] = val;
+        }
     }
     else
     {
@@ -542,18 +542,18 @@ void TxRom::prg_storeb(u16 addr, u8 val)
             SetSegmentAddresses();
             break;
         case 0x8001:
-            if (_addr8001 < 7)
+            if (_addr8001 < 6)
             {
-                _chrReg[_addr8001] = val;
+                _chrReg[_addr8001] = (val & _chrRegMask);
             }
             else
             {
-                _prgReg[_addr8001 & 1] = val;
+                _prgReg[_addr8001 & 1] = (val & _prgRegMask);
             }
             SetSegmentAddresses();
             break;
         case 0xa000:
-            Mirroring = (val & 1) == 0 ? NameTableMirroring::Vertical : NameTableMirroring::Horizontal;
+            if (Mirroring != NameTableMirroring::FourScreen) Mirroring = (val & 1) == 0 ? NameTableMirroring::Vertical : NameTableMirroring::Horizontal;
             break;
         case 0xa001:
             // TODO: Something to do with enabling/disabling WRAM (Which i think is PrgRam);
@@ -580,15 +580,15 @@ void TxRom::SetSegmentAddresses()
     if (!_prgMode)
     {
         _prgSegmentAddr[0] = _prgReg[0] * 0x2000;
-        _prgSegmentAddr[2] = _secondLastBankIndex * 0x2000;
+        _prgSegmentAddr[2] = _secondLastPrgBankIndex * 0x2000;
     }
     else
     {
-        _prgSegmentAddr[0] = _secondLastBankIndex * 0x2000;
+        _prgSegmentAddr[0] = _secondLastPrgBankIndex * 0x2000;
         _prgSegmentAddr[2] = _prgReg[0] * 0x2000;
     }
     _prgSegmentAddr[1] = _prgReg[1] * 0x2000;
-    _prgSegmentAddr[3] = _lastBankIndex * 0x2000;
+    _prgSegmentAddr[3] = _lastPrgBankIndex * 0x2000;
 
     if (!_chrMode)
     {
@@ -614,32 +614,33 @@ void TxRom::SetSegmentAddresses()
     }
 }
 
-u32 TxRom::GetChrSegmetAddress(u16 addr)
+u32 TxRom::GetChrAddress(u16 addr)
 {
+    u32 baseAddress = 0;
     switch (addr & 0x1c00)
     {
-    case 0x0000: return _chrSegmentAddr[0];
-    case 0x0400: return _chrSegmentAddr[1];
-    case 0x0800: return _chrSegmentAddr[2];
-    case 0x0c00: return _chrSegmentAddr[3];
-    case 0x1000: return _chrSegmentAddr[4];
-    case 0x1400: return _chrSegmentAddr[5];
-    case 0x1800: return _chrSegmentAddr[6];
-    case 0x1c00: return _chrSegmentAddr[7];
-    default: return 0;
+    case 0x0000: baseAddress = _chrSegmentAddr[0]; break;
+    case 0x0400: baseAddress = _chrSegmentAddr[1]; break;
+    case 0x0800: baseAddress = _chrSegmentAddr[2]; break;
+    case 0x0c00: baseAddress = _chrSegmentAddr[3]; break;
+    case 0x1000: baseAddress = _chrSegmentAddr[4]; break;
+    case 0x1400: baseAddress = _chrSegmentAddr[5]; break;
+    case 0x1800: baseAddress = _chrSegmentAddr[6]; break;
+    case 0x1c00: baseAddress = _chrSegmentAddr[7]; break;
     }
+
+    return baseAddress + (addr & 0x3ff);
 }
 
 u8 TxRom::chr_loadb(u16 addr)
 {
-    return _chrBuf[GetChrSegmetAddress(addr) + (addr & 0x3ff)];
+    return _chrBuf[GetChrAddress(addr)];
 }
 
 void TxRom::chr_storeb(u16 addr, u8 val)
 {
     // only ever write to chrRam, never chrRom.
-    // if we don't have _chrRam this will break
-    _chrRam[GetChrSegmetAddress(addr) + (addr & 0x3ff)] = val;
+    _chrRam[GetChrAddress(addr)] = val;
 }
 
 bool TxRom::Scanline()
