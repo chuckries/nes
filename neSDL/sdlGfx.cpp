@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "sdlGfx.h"
+#include "../src/nes_ntsc.h"
 
 #if !defined(RENDER_GRID)
 const unsigned int SCREEN_WIDTH = 256;
@@ -92,8 +93,8 @@ SdlGfx::SdlGfx(unsigned int scale)
         "NES",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        SCREEN_WIDTH * scale ,
-        SCREEN_HEIGHT * scale,
+        NES_NTSC_OUT_WIDTH(SCREEN_WIDTH) * 2, // * scale ,
+        SCREEN_HEIGHT * 2 * 2, // * scale,
         SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI
         );
 
@@ -105,9 +106,9 @@ SdlGfx::SdlGfx(unsigned int scale)
 
     _texture = SDL_CreateTexture(
         _renderer,
-        SDL_PIXELFORMAT_ABGR8888,
+        SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING,
-        SCREEN_WIDTH,
+        NES_NTSC_OUT_WIDTH(SCREEN_WIDTH),
         SCREEN_HEIGHT
         );
 
@@ -176,7 +177,7 @@ void SdlGfx::Blit(unsigned char screen[])
     } while (duration < 16666667); // 60 fps
     _lastDrawTime = now;
 
-    SDL_UpdateTexture(_texture, NULL, (void*)screen_to_render, SCREEN_WIDTH * 4);
+    SDL_UpdateTexture(_texture, NULL, (void*)screen_to_render, NES_NTSC_OUT_WIDTH(SCREEN_WIDTH) * 4);
     SDL_RenderClear(_renderer);
     SDL_RenderCopy(_renderer, _texture, NULL, NULL);
     SDL_RenderPresent(_renderer);

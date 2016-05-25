@@ -14,6 +14,7 @@
 
 Nes::Nes(Rom* rom, IMapper* mapper, IAudioProvider* audioProvider)
     : _rom(rom)
+    , _nes_ntsc_setup(nes_ntsc_composite)
 {
     //_debugger = new DebugService();
     _ppu = new Ppu(mapper);
@@ -25,7 +26,9 @@ Nes::Nes(Rom* rom, IMapper* mapper, IAudioProvider* audioProvider)
 
     // TODO: Move these to an init method
     _newCpu->Reset(true);
-    _apu->StartAudio(_mem); 
+    _apu->StartAudio(_mem);
+
+    nes_ntsc_init(&_nes_ntsc, &_nes_ntsc_setup);
 }
 
 Nes::~Nes()
@@ -70,6 +73,9 @@ void Nes::DoFrame(u8 screen[])
 {
     PpuStepResult ppuResult;
     ApuStepResult apuResult;
+
+    u16 rawScreen[SCREEN_WIDTH * SCREEN_HEIGHT] = { 0 };
+
     do
     {
         ppuResult.Reset();
@@ -79,7 +85,7 @@ void Nes::DoFrame(u8 screen[])
         u32 stealCycles = 0;
         _apu->Step(_newCpu->IsDmaRunning(), apuResult, stealCycles);
         _newCpu->StealCycles(stealCycles);
-        _ppu->Step(3, screen, ppuResult);
+        _ppu->Step(3, rawScreen, ppuResult);
         
         
         if (ppuResult.WantNmi)
@@ -91,6 +97,8 @@ void Nes::DoFrame(u8 screen[])
             _newCpu->Irq();
         }
     } while (!ppuResult.VBlank);
+
+    nes_ntsc_blit(&_nes_ntsc, rawScreen, SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT, screen, NES_NTSC_OUT_WIDTH(SCREEN_WIDTH)  * 4);
 }
 
 IStandardController* Nes::GetStandardController(unsigned int port)

@@ -2,6 +2,7 @@
 #include "sdlAudio.h"
 #include "sdlGfx.h"
 #include "sdlInput.h"
+#include "../src/nes_ntsc.h"
 
 int main(int argc, char* argv[])
 {
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
 
     SdlGfx gfx(3);
 
-    unsigned char screen[256 * 240 * 4];
+    unsigned char screen[240 * NES_NTSC_OUT_WIDTH(256) * 4] = { 0 };
     for (;;)
     {
         memset(screen, 0, sizeof(screen));

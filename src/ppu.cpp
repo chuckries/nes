@@ -375,7 +375,7 @@ u8 Ppu::ScrollY()
     return y;// +offset;
 }
 
-void Ppu::Step(PpuStepResult& result, u8 screen[])
+void Ppu::Step(PpuStepResult& result, u16 rawScreen[])
 {
     if (_scanline >= 0 && _scanline <= 239)
     {
@@ -392,7 +392,7 @@ void Ppu::Step(PpuStepResult& result, u8 screen[])
         }
         if (_cycle >=1 && _cycle <= 256)
         {
-            DrawScanline(_cycle - 1, screen);
+            DrawScanline(_cycle - 1, rawScreen);
             if (_cycle == 256 && IsRendering())
             {
                 IncVertV();
@@ -486,15 +486,15 @@ void Ppu::Step(PpuStepResult& result, u8 screen[])
     }
 }
 
-void Ppu::Step(u8 cycles, u8 screen[], PpuStepResult& result)
+void Ppu::Step(u8 cycles, u16 rawScreen[], PpuStepResult& result)
 {
     for (u8 i = 0; i < cycles; i++)
     {
-        Step(result, screen);
+        Step(result, rawScreen);
     }
 }
 
-void Ppu::DrawScanline(u8 x, u8 screen[])
+void Ppu::DrawScanline(u8 x, u16 rawScreen[])
 {
     SpritePriority spritePriority = SpritePriority::Below;
     rgb pixel;
@@ -519,29 +519,29 @@ void Ppu::DrawScanline(u8 x, u8 screen[])
 
     if (!backgroundOpaque && !spriteOpqaue)
     {
-        pixel.SetColor(backdropColorIndex);
+        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backdropColorIndex;
     }
     else if (!spriteOpqaue)
     {
-        pixel.SetColor(backgroundPaletteIndex);
+        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backgroundPaletteIndex;
     }
     else if (!backgroundOpaque)
     {
-        pixel.SetColor(spritePaletteIndex);
+        rawScreen[(_scanline * SCREEN_WIDTH + x)] = spritePaletteIndex;
     }
     else if (spritePriority == SpritePriority::Above)
     {
-        pixel.SetColor(spritePaletteIndex);
+        rawScreen[(_scanline * SCREEN_WIDTH + x)] = spritePaletteIndex;
     }
     else if (spritePriority == SpritePriority::Below)
     {
-        pixel.SetColor(backgroundPaletteIndex);
+        rawScreen[(_scanline * SCREEN_WIDTH + x)] = backgroundPaletteIndex;
     }
 
-    screen[(_scanline * SCREEN_WIDTH + x) * 4 + 0] = pixel.r;
-    screen[(_scanline * SCREEN_WIDTH + x) * 4 + 1] = pixel.g;
-    screen[(_scanline * SCREEN_WIDTH + x) * 4 + 2] = pixel.b;
-    screen[(_scanline * SCREEN_WIDTH + x) * 4 + 3] = 0xff; //alpha channel, ignore
+    //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 0] = pixel.r;
+    //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 1] = pixel.g;
+    //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 2] = pixel.b;
+    //screen[(_scanline * SCREEN_WIDTH + x) * 4 + 3] = 0xff; //alpha channel, ignore
 }
 
 void Ppu::ProcessSprites()

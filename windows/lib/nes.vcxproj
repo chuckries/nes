@@ -54,6 +54,9 @@
     <ClInclude Include="..\..\src\mapper.h" />
     <ClInclude Include="..\..\src\mem.h" />
     <ClInclude Include="..\..\src\nes.h" />
+    <ClInclude Include="..\..\src\nes_ntsc.h" />
+    <ClInclude Include="..\..\src\nes_ntsc_config.h" />
+    <ClInclude Include="..\..\src\nes_ntsc_impl.h" />
     <ClInclude Include="..\..\src\new-cpu.h" />
     <ClInclude Include="..\..\src\ppu.h" />
     <ClInclude Include="..\..\src\rom.h" />
@@ -71,6 +74,7 @@
     <ClCompile Include="..\..\src\mapper.cpp" />
     <ClCompile Include="..\..\src\mem.cpp" />
     <ClCompile Include="..\..\src\nes.cpp" />
+    <ClCompile Include="..\..\src\nes_ntsc.c" />
     <ClCompile Include="..\..\src\new-cpu.cpp" />
     <ClCompile Include="..\..\src\ppu.cpp" />
     <ClCompile Include="..\..\src\rom.cpp" />

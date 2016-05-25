@@ -10,6 +10,7 @@ class Apu;
 class Input;
 
 #include "interfaces.h"
+#include "nes_ntsc.h"
 
 class Nes : public INes, public NesObject
 {
@@ -54,4 +55,7 @@ private:
     //NPtr<Cpu> _cpu;
     NPtr<NewCpu> _newCpu;
     NPtr<DebugService> _debugger;
+
+    nes_ntsc_setup_t _nes_ntsc_setup;
+    nes_ntsc_t _nes_ntsc;
 };
