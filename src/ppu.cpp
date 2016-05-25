@@ -936,8 +936,6 @@ const Sprite* Oam::operator[](const int index)
     return (Sprite*)&_ram[index * 4];
 }
 
-
-#if defined(RENDER_NAMETABLE)
 void Ppu::RenderNameTable(u8 screen[], int index)
 {
     u16 backgroundBaseAddress = _backgroundBaseAddress;
@@ -1008,7 +1006,6 @@ void Ppu::RenderNameTable(u8 screen[], int index)
         }
     }
 }
-#endif
 
 #if defined(RENDER_PATTERNTABLE)
 void Ppu::RenderPatternTable(u16 baseAddr, u8 pt[])

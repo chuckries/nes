@@ -1,7 +1,8 @@
 #pragma once
 
 class Rom;
-class Cpu;
+//class Cpu;
+class NewCpu;
 class DebugService;
 class MemoryMap;
 class Ppu;
@@ -50,6 +51,7 @@ private:
     NPtr<Ppu> _ppu;
     NPtr<Input> _input;
     NPtr<MemoryMap> _mem;
-    NPtr<Cpu> _cpu;
+    //NPtr<Cpu> _cpu;
+    NPtr<NewCpu> _newCpu;
     NPtr<DebugService> _debugger;
 };

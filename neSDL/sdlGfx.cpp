@@ -5,12 +5,12 @@
 const unsigned int SCREEN_WIDTH = 256;
 const unsigned int SCREEN_HEIGHT = 240;
 #else
-const u32 SCREEN_WIDTH = 256 +32;
-const u32 SCREEN_HEIGHT = 240 +30;
+const unsigned int SCREEN_WIDTH = 256 +32;
+const unsigned int SCREEN_HEIGHT = 240 +30;
 
-u8 grid_screen[SCREEN_HEIGHT * SCREEN_WIDTH * 3];
+unsigned char grid_screen[SCREEN_HEIGHT * SCREEN_WIDTH * 4];
 
-u8 grid_color = 0xff;
+unsigned char grid_color = 0xff;
 #endif
 
 
@@ -23,7 +23,7 @@ SdlGfx::SdlGfx(unsigned int scale)
     for (int i = 0; i < 4; i++)
     {
         char name[sizeof("ntxx") + 1];
-        sprintf(name, "nt%02d", i);
+        sprintf_s(name, "nt%02d", i);
 
         _nt_window[i] = SDL_CreateWindow(
             name,
@@ -42,7 +42,7 @@ SdlGfx::SdlGfx(unsigned int scale)
 
         _nt_texture[i] = SDL_CreateTexture(
             _nt_renderer[i],
-            SDL_PIXELFORMAT_RGB24,
+            SDL_PIXELFORMAT_ABGR8888,
             SDL_TEXTUREACCESS_STREAMING,
             256,
             240
@@ -125,30 +125,32 @@ SdlGfx::~SdlGfx()
 }
 
 #if defined(RENDER_GRID)
-void render_grid(u8 screen[])
+void render_grid(unsigned char screen[])
 {
-    ZeroMemory(grid_screen, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
+    memset(grid_screen, SCREEN_HEIGHT * SCREEN_WIDTH * 4, 0);
 
     int screen_index = 0;
 
-    for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT * 3;)
+    for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT * 4;)
     {
-        if (i % 7776 == 0)
+        if (i % (SCREEN_WIDTH * 9 * 4) == 0)
         {
-            for (int j = 0; j < 864; j++)
+            for (int j = 0; j < SCREEN_WIDTH * 4; j++)
             {
                 grid_screen[i++] = grid_color;
             }
         }
         else 
-            if (i % (9 * 3) == 0)
+            if (i % (9 * 4) == 0)
         {
             grid_screen[i++] = grid_color;
             grid_screen[i++] = grid_color;
             grid_screen[i++] = grid_color;
+            grid_screen[i++] = 0xff;
         }
         else
         {
+            grid_screen[i++] = screen[screen_index++];
             grid_screen[i++] = screen[screen_index++];
             grid_screen[i++] = screen[screen_index++];
             grid_screen[i++] = screen[screen_index++];
@@ -190,9 +192,9 @@ void SdlGfx::Blit(unsigned char screen[])
 }
 
 #if defined(RENDER_NAMETABLE)
-void SdlGfx::BlitNameTable(u8 screen[], int i)
+void SdlGfx::BlitNameTable(unsigned char screen[], int i)
 {
-    SDL_UpdateTexture(_nt_texture[i], NULL, (void*)screen, SCREEN_WIDTH * 3);
+    SDL_UpdateTexture(_nt_texture[i], NULL, (void*)screen, SCREEN_WIDTH * 4);
     SDL_RenderClear(_nt_renderer[i]);
     SDL_RenderCopy(_nt_renderer[i], _nt_texture[i], NULL, NULL);
     SDL_RenderPresent(_nt_renderer[i]);

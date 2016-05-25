@@ -417,19 +417,6 @@ void Apu::storeb(u16 addr, u8 val)
     }
 }
 
-void Apu::Step(u32 &cycles, bool isDmaRunning, ApuStepResult& result)
-{
-    u32 totalStealCycles = 0;
-    for (u32 count = 0; count < cycles; count++)
-    {
-        u32 stealCycles = 0;
-        Step(isDmaRunning, result, stealCycles);
-        totalStealCycles += stealCycles;
-    }
-
-    cycles += totalStealCycles;
-}
-
 void Apu::Step(bool isDmaRunning, ApuStepResult& result, u32 &stealCycleCount)
 {
     if (_dmcState->enabled)
